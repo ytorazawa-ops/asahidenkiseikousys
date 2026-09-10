@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#fff}
+body{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic Medium",Meiryo,sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:"palt" 1;color:#1A1A1A}
+a{color:#1B6FD0;text-decoration:none}
+a:hover{color:#E60012}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#fff;min-width:1280px">
+  <div style="position:relative;height:78px;background:#F4F4F4;border-bottom:1px solid #E8E8E8;display:flex;align-items:center;padding:0 300px 0 34px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <a href="sc05-list.dc.html" style="background:#6E6E6E;color:#fff;font-size:12.5px;padding:6px 16px;border-radius:16px;flex:none;white-space:nowrap" style-hover="background:#111;color:#fff">案件一覧へ戻る</a>
+      <span style="font-size:12.5px;color:#8A8A8A;font-variant-numeric:tabular-nums;margin-left:8px;flex:none">#A-0123</span>
+      <span style="font-size:18px;font-weight:700;flex:none;white-space:nowrap">株式会社◯◯精機</span>
+      <span style="background:#E60012;color:#fff;font-size:11.5px;padding:3px 11px;border-radius:12px;flex:none;white-space:nowrap">最優先 92</span>
+      <span style="background:#6E6E6E;color:#fff;font-size:11.5px;padding:3px 11px;border-radius:3px;flex:none;white-space:nowrap">見積</span>
+    </div>
+    <div style="position:absolute;top:0;right:0;height:64px;background:#111;color:#fff;border-radius:0 0 16px 16px;display:flex;align-items:center;gap:11px;padding:0 30px">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="flex:none"><circle cx="11" cy="11" r="9.4" stroke="#fff" stroke-width="1.4"/><circle cx="11" cy="8.6" r="2.6" fill="#fff"/><path d="M5.8 17.4c.7-2.8 2.7-4.2 5.2-4.2s4.5 1.4 5.2 4.2" fill="#fff"/></svg>
+      <span style="font-size:15px;font-weight:500;letter-spacing:.04em;flex:none;white-space:nowrap">山田 太郎</span>
+      <span style="font-size:11.5px;color:#9BA1A6;flex:none">営業部</span>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-wrap:wrap;gap:20px;align-items:center;padding:11px 34px;background:#FAFAFA;border-bottom:1px solid #EDEDED;font-size:12px">
+    <span style="color:#6B6B6B;flex:none">通知状況</span>
+    <span style="flex:none"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#CFCFCF;margin-right:7px"></span>営業 既読</span>
+    <span style="flex:none"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#CFCFCF;margin-right:7px"></span>製造 既読</span>
+    <span style="color:#E60012;flex:none"><span style="display:inline-block;width:7px;height:7px;border-radius:50%;background:#E60012;margin-right:7px"></span>品証 未読</span>
+    <span style="color:#AEAEAE;flex:none">技術 対象外</span>
+    <span style="margin-left:auto;color:#6B6B6B;flex:none">スコア内訳　図面 35／フェーズ 25／困りごと 20／役職ほか 12</span>
+  </div>
+
+  <div style="padding:28px 34px 44px;display:grid;grid-template-columns:minmax(0,1fr) 388px;gap:28px;align-items:start">
+    <div style="min-width:0;display:flex;flex-direction:column;gap:26px">
+      <div>
+        <h3 style="margin:0 0 12px;font-size:16px;font-weight:700">問い合わせ内容</h3>
+        <div style="border:1px solid #E4E4E4;border-radius:8px;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:16px;padding:13px 18px;background:#F1F1F1;border-bottom:1px solid #E7E7E7;font-size:13px;flex-wrap:wrap">
+            <span style="display:flex;align-items:center;gap:8px;color:#5C5C5C;font-variant-numeric:tabular-nums;flex:none"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex:none"><rect x="1" y="2.6" width="12" height="10.4" rx="1.6" stroke="#8A8A8A"/><path d="M1 5.6h12M4.4 1v2.4M9.6 1v2.4" stroke="#8A8A8A"/></svg>2025/12/01 12:34</span>
+            <span style="color:#6B6B6B;font-variant-numeric:tabular-nums;flex:none">#A-0123</span>
+            <span style="background:#6E6E6E;color:#fff;font-size:11px;padding:3px 10px;border-radius:3px;flex:none">見積</span>
+            <span style="font-weight:700;font-size:14px;flex:none;white-space:nowrap">株式会社◯◯精機</span>
+            <span style="color:#3A3A3A;flex:none;white-space:nowrap">山田 太郎 様</span>
+          </div>
+          <div style="padding:18px 20px 20px;background:#fff">
+            <p style="margin:0;font-size:13.5px;line-height:2;color:#2A2A2A;text-wrap:pretty">部品名称：ワーク供給ガイド・スライダー仕様変更品。<br>現行製品と同一材料ですが、摩耗部分を改善するため精度を ±0.02 → ±0.01 へ調整可能か確認希望。<br>ねじ固定部の座ぐり寸法を添付図面参照で変更しています。<br>必要数量：5個／材質：SUS304。<br>追加で検査成績書の発行を希望します。</p>
+            <div style="display:flex;align-items:center;gap:12px;margin-top:20px">
+              <span style="background:#6E6E6E;color:#fff;font-size:12px;padding:6px 16px;border-radius:16px;flex:none;white-space:nowrap">希望スケジュール</span>
+              <span style="display:flex;align-items:center;gap:8px;border:1px solid #E0E0E0;border-radius:16px;padding:5px 16px;font-size:13px;font-variant-numeric:tabular-nums;flex:none"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex:none"><circle cx="7" cy="7.4" r="5.6" stroke="#8A8A8A"/><path d="M7 4.6v3l2 1.4" stroke="#8A8A8A"/></svg>2026/02/01</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;padding:12px 18px;background:#F1F1F1;border-top:1px solid #E7E7E7;flex-wrap:wrap">
+            <span style="background:#fff;border:1px solid #E4E4E4;border-radius:16px;padding:5px 14px;font-size:12px;color:#3A3A3A;flex:none;white-space:nowrap">図面.dxf</span>
+            <span style="background:#fff;border:1px solid #E4E4E4;border-radius:16px;padding:5px 14px;font-size:12px;color:#3A3A3A;flex:none;white-space:nowrap">現行品.jpg</span>
+            <span style="background:#fff;border:1px solid #E4E4E4;border-radius:16px;padding:5px 14px;font-size:12px;color:#3A3A3A;flex:none;white-space:nowrap">要求仕様.pdf</span>
+            <span style="margin-left:auto;font-size:11.5px;color:#8A8A8A;align-self:center;flex:none;white-space:nowrap">閲覧・DLはログに記録されます</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="margin:0 0 14px;font-size:16px;font-weight:700">ステータス</h3>
+        <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr))">
+          <div style="position:relative;display:flex;justify-content:center;align-items:center;height:32px"><span style="position:absolute;left:50%;right:0;top:50%;height:2px;background:#9A9A9A;display:block"></span><span style="width:17px;height:17px;border-radius:50%;background:#9A9A9A;position:relative;display:block"></span></div>
+          <div style="position:relative;display:flex;justify-content:center;align-items:center;height:32px"><span style="position:absolute;left:0;right:0;top:50%;height:2px;background:#9A9A9A;display:block"></span><span style="width:17px;height:17px;border-radius:50%;background:#9A9A9A;position:relative;display:block"></span></div>
+          <div style="position:relative;display:flex;justify-content:center;align-items:center;height:32px"><span style="position:absolute;left:0;right:0;top:50%;height:2px;background:#D6D6D6;display:block"></span><span style="width:19px;height:19px;border-radius:50%;background:#E60012;position:relative;display:block;box-shadow:0 0 0 5px #FCE9EA"></span></div>
+          <div style="position:relative;display:flex;justify-content:center;align-items:center;height:32px"><span style="position:absolute;left:0;right:0;top:50%;height:2px;background:#D6D6D6;display:block"></span><span style="width:17px;height:17px;border-radius:50%;background:#fff;border:2px solid #C4C4C4;position:relative;display:block"></span></div>
+          <div style="position:relative;display:flex;justify-content:center;align-items:center;height:32px"><span style="position:absolute;left:0;right:0;top:50%;height:2px;background:#D6D6D6;display:block"></span><span style="width:17px;height:17px;border-radius:50%;background:#fff;border:2px solid #C4C4C4;position:relative;display:block"></span></div>
+          <div style="position:relative;display:flex;justify-content:center;align-items:center;height:32px"><span style="position:absolute;left:0;right:0;top:50%;height:2px;background:#D6D6D6;display:block"></span><span style="width:17px;height:17px;border-radius:50%;background:#fff;border:2px solid #C4C4C4;position:relative;display:block"></span></div>
+          <div style="position:relative;display:flex;justify-content:center;align-items:center;height:32px"><span style="position:absolute;left:0;right:50%;top:50%;height:2px;background:#D6D6D6;display:block"></span><span style="width:17px;height:17px;border-radius:50%;background:#fff;border:2px solid #C4C4C4;position:relative;display:block"></span></div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;margin-top:8px">
+          <div style="border:1px solid #E4E4E4;border-radius:8px;padding:12px 8px 11px;text-align:center;background:#fff">
+            <p style="margin:0;font-size:14px;font-weight:700">受付</p>
+            <p style="margin:1px 0 0;font-size:12.5px;color:#8A8A8A;font-variant-numeric:tabular-nums">11/28</p>
+            <p style="margin:8px 0 3px;font-size:11px;color:#8A8A8A">営業事務</p>
+            <p style="margin:0 0 8px;font-size:11.5px;color:#3A3A3A">旭野 製鋼</p>
+            <span style="display:inline-block;border:1px solid #DCDCDC;background:#FAFAFA;color:#6B6B6B;border-radius:3px;font-size:11px;padding:2px 9px">完了</span>
+          </div>
+          <div style="border:1px solid #E4E4E4;border-radius:8px;padding:12px 8px 11px;text-align:center;background:#fff">
+            <p style="margin:0;font-size:14px;font-weight:700">設計</p>
+            <p style="margin:1px 0 0;font-size:12.5px;color:#8A8A8A;font-variant-numeric:tabular-nums">12/01</p>
+            <p style="margin:8px 0 3px;font-size:11px;color:#8A8A8A">設計部</p>
+            <p style="margin:0 0 8px;font-size:11.5px;color:#3A3A3A">◯◯ ◯◯</p>
+            <span style="display:inline-block;border:1px solid #DCDCDC;background:#FAFAFA;color:#6B6B6B;border-radius:3px;font-size:11px;padding:2px 9px">完了</span>
+          </div>
+          <div style="border:1px solid #E60012;border-radius:8px;padding:12px 8px 11px;text-align:center;background:#FCF1F1">
+            <p style="margin:0;font-size:14px;font-weight:700;color:#B3121A">見積</p>
+            <p style="margin:1px 0 0;font-size:12.5px;color:#B3121A;font-variant-numeric:tabular-nums">12/12</p>
+            <p style="margin:8px 0 3px;font-size:11px;color:#A4676A">営業事務</p>
+            <p style="margin:0 0 8px;font-size:11.5px;color:#8C2226">旭野 製鋼</p>
+            <span style="display:inline-block;border:1px solid #E60012;background:#fff;color:#E60012;border-radius:3px;font-size:11px;padding:2px 9px">対応中</span>
+          </div>
+          <div style="border:1px solid #E4E4E4;border-radius:8px;padding:12px 8px 11px;text-align:center;background:#fff">
+            <p style="margin:0;font-size:14px;font-weight:700">依頼</p>
+            <p style="margin:1px 0 0;font-size:12.5px;color:#8A8A8A;font-variant-numeric:tabular-nums">1/05</p>
+            <p style="margin:8px 0 3px;font-size:11px;color:#8A8A8A">営業事務</p>
+            <p style="margin:0 0 8px;font-size:11.5px;color:#AEAEAE">未割当</p>
+            <span style="display:inline-block;border:1px solid #E60012;color:#E60012;background:#fff;border-radius:3px;font-size:11px;padding:2px 9px">未対応</span>
+          </div>
+          <div style="border:1px solid #E4E4E4;border-radius:8px;padding:12px 8px 11px;text-align:center;background:#fff">
+            <p style="margin:0;font-size:14px;font-weight:700">製造</p>
+            <p style="margin:1px 0 0;font-size:12.5px;color:#8A8A8A;font-variant-numeric:tabular-nums">1/08</p>
+            <p style="margin:8px 0 3px;font-size:11px;color:#8A8A8A">製造部</p>
+            <p style="margin:0 0 8px;font-size:11.5px;color:#AEAEAE">未割当</p>
+            <span style="display:inline-block;border:1px solid #E60012;color:#E60012;background:#fff;border-radius:3px;font-size:11px;padding:2px 9px">未対応</span>
+          </div>
+          <div style="border:1px solid #E4E4E4;border-radius:8px;padding:12px 8px 11px;text-align:center;background:#fff">
+            <p style="margin:0;font-size:14px;font-weight:700">検査</p>
+            <p style="margin:1px 0 0;font-size:12.5px;color:#8A8A8A;font-variant-numeric:tabular-nums">1/24</p>
+            <p style="margin:8px 0 3px;font-size:11px;color:#8A8A8A">品質保証</p>
+            <p style="margin:0 0 8px;font-size:11.5px;color:#AEAEAE">未割当</p>
+            <span style="display:inline-block;border:1px solid #E60012;color:#E60012;background:#fff;border-radius:3px;font-size:11px;padding:2px 9px">未対応</span>
+          </div>
+          <div style="border:1px solid #E4E4E4;border-radius:8px;padding:12px 8px 11px;text-align:center;background:#fff">
+            <p style="margin:0;font-size:14px;font-weight:700">出荷</p>
+            <p style="margin:1px 0 0;font-size:12.5px;color:#8A8A8A;font-variant-numeric:tabular-nums">1/31</p>
+            <p style="margin:8px 0 3px;font-size:11px;color:#8A8A8A">製造部</p>
+            <p style="margin:0 0 8px;font-size:11.5px;color:#AEAEAE">未割当</p>
+            <span style="display:inline-block;border:1px solid #E60012;color:#E60012;background:#fff;border-radius:3px;font-size:11px;padding:2px 9px">未対応</span>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px">
+        <div style="border:1px solid #E4E4E4;border-radius:8px;overflow:hidden">
+          <div style="background:#6E6E6E;color:#fff;padding:11px 16px;font-size:14px;font-weight:700">外注ステータス</div>
+          <div style="padding:16px 18px;background:#FAFAFA">
+            <div style="display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:6px 0;border-bottom:1px solid #EDEDED">
+              <span style="flex:none">A社</span><span style="color:#5C5C5C;font-variant-numeric:tabular-nums;text-align:right">見積回答済　¥128,000／12/3納期</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;gap:12px;font-size:13px;padding:6px 0">
+              <span style="flex:none">B社</span><span style="color:#B3121A;font-variant-numeric:tabular-nums;text-align:right">回答待ち　期限 12/2</span>
+            </div>
+          </div>
+        </div>
+        <div style="border:1px solid #E4E4E4;border-radius:8px;overflow:hidden">
+          <div style="background:#6E6E6E;color:#fff;padding:11px 16px;font-size:14px;font-weight:700">製造タスク</div>
+          <div style="padding:14px 18px;background:#FAFAFA;display:flex;flex-direction:column;gap:8px">
+            <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="checkbox" style="width:14px;height:14px;accent-color:#E60012;margin:0">材料手配</label>
+            <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="checkbox" style="width:14px;height:14px;accent-color:#E60012;margin:0">図面最終承認</label>
+            <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="checkbox" style="width:14px;height:14px;accent-color:#E60012;margin:0">製造指示書作成</label>
+            <label style="display:flex;align-items:center;gap:10px;font-size:13px;cursor:pointer"><input type="checkbox" style="width:14px;height:14px;accent-color:#E60012;margin:0">検査依頼登録</label>
+          </div>
+        </div>
+      </div>
+
+      <div style="border:1px solid #E4E4E4;border-radius:8px;overflow:hidden">
+        <div style="background:#F1F1F1;color:#2A2A2A;padding:11px 16px;font-size:14px;font-weight:700;border-bottom:1px solid #E7E7E7;display:flex;align-items:center;gap:12px">
+          <span style="flex:none;white-space:nowrap">見積　部署別入力</span>
+          <button onClick="{{ openModal }}" style="margin-left:auto;background:#E60012;color:#fff;border:0;font-family:inherit;font-size:12.5px;padding:7px 18px;border-radius:16px;cursor:pointer;flex:none;white-space:nowrap" style-hover="background:#C1000F">見積概算を入力</button>
+        </div>
+        <div style="padding:14px 18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px">
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #EDEDED"><span style="color:#6B6B6B">製造部</span><span style="font-variant-numeric:tabular-nums">{{ vMfg }}</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid #EDEDED"><span style="color:#6B6B6B">外注A社</span><span style="font-variant-numeric:tabular-nums">{{ vA }}</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:6px 0"><span style="color:#6B6B6B">外注B社</span><span style="font-variant-numeric:tabular-nums">{{ vB }}</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:14px;font-weight:700;padding:6px 0;border-top:1px solid #E0E0E0"><span>合計</span><span style="font-variant-numeric:tabular-nums">{{ vTotal }}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:24px">
+      <div>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <h3 style="margin:0;font-size:16px;font-weight:700;flex:none;white-space:nowrap">見積書等データ</h3>
+          <span style="font-size:11.5px;color:#8A8A8A;flex:none">社内作成</span>
+          <span style="margin-left:auto;background:#6E6E6E;color:#fff;font-size:11.5px;padding:4px 13px;border-radius:14px;flex:none;white-space:nowrap">アップロード</span>
+        </div>
+        <div style="background:#6E6E6E;border-radius:10px;padding:16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px">
+          <div>
+            <div style="background:#fff;border-radius:4px;height:148px;overflow:hidden;display:flex;align-items:stretch">
+              <svg viewBox="0 0 120 150" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="0" y="0" width="120" height="150" fill="#fff"/><rect x="14" y="12" width="92" height="12" fill="#EDEDED"/><rect x="14" y="30" width="52" height="4" fill="#DCDCDC"/><rect x="14" y="38" width="66" height="4" fill="#E8E8E8"/><rect x="14" y="52" width="92" height="1" fill="#D6D6D6"/><rect x="14" y="62" width="92" height="1" fill="#E8E8E8"/><rect x="14" y="73" width="92" height="1" fill="#E8E8E8"/><rect x="14" y="84" width="92" height="1" fill="#E8E8E8"/><rect x="14" y="95" width="92" height="1" fill="#E8E8E8"/><rect x="14" y="106" width="92" height="1" fill="#E8E8E8"/><rect x="14" y="117" width="92" height="1" fill="#E8E8E8"/><rect x="44" y="52" width="1" height="66" fill="#D6D6D6"/><rect x="76" y="52" width="1" height="66" fill="#D6D6D6"/><rect x="14" y="128" width="92" height="1" fill="#D6D6D6"/><rect x="14" y="135" width="34" height="4" fill="#E8E8E8"/></svg>
+            </div>
+            <p style="margin:7px 0 0;text-align:center;font-size:11.5px;color:#fff">部品仕様書.pdf</p>
+          </div>
+          <div>
+            <div style="background:#fff;border-radius:4px;height:148px;overflow:hidden;display:flex;align-items:stretch">
+              <svg viewBox="0 0 120 150" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="0" y="0" width="120" height="150" fill="#fff"/><rect x="36" y="12" width="48" height="8" fill="#EDEDED"/><rect x="14" y="30" width="44" height="4" fill="#DCDCDC"/><rect x="66" y="30" width="40" height="4" fill="#E8E8E8"/><rect x="66" y="38" width="40" height="4" fill="#E8E8E8"/><rect x="14" y="52" width="92" height="10" fill="#EFEFEF"/><rect x="18" y="69" width="30" height="3.5" fill="#E8E8E8"/><rect x="86" y="69" width="16" height="3.5" fill="#DCDCDC"/><rect x="18" y="81" width="30" height="3.5" fill="#E8E8E8"/><rect x="86" y="81" width="16" height="3.5" fill="#DCDCDC"/><rect x="18" y="93" width="30" height="3.5" fill="#E8E8E8"/><rect x="86" y="93" width="16" height="3.5" fill="#DCDCDC"/><rect x="18" y="105" width="30" height="3.5" fill="#E8E8E8"/><rect x="86" y="105" width="16" height="3.5" fill="#DCDCDC"/><rect x="14" y="122" width="92" height="1" fill="#D6D6D6"/><rect x="60" y="130" width="46" height="7" fill="#EDEDED"/></svg>
+            </div>
+            <p style="margin:7px 0 0;text-align:center;font-size:11.5px;color:#fff">見積書.xlsx</p>
+          </div>
+          <div>
+            <div style="background:#fff;border-radius:4px;height:148px;overflow:hidden;display:flex;align-items:stretch">
+              <svg viewBox="0 0 120 150" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="0" y="0" width="120" height="150" fill="#fff"/><rect x="8" y="8" width="104" height="134" fill="none" stroke="#D6D6D6"/><rect x="30" y="34" width="60" height="42" fill="none" stroke="#9A9A9A" stroke-width="1.2"/><circle cx="60" cy="55" r="13" fill="none" stroke="#9A9A9A" stroke-width="1.2"/><circle cx="60" cy="55" r="5" fill="none" stroke="#9A9A9A"/><path d="M60 28 L60 82 M27 55 L93 55" stroke="#C8C8C8" stroke-width=".8" stroke-dasharray="5 2 1 2"/><path d="M30 90 L90 90 M30 87 L30 93 M90 87 L90 93" stroke="#AEAEAE" stroke-width=".8"/><path d="M20 102 L100 102" stroke="#E4E4E4" stroke-width=".8"/><rect x="66" y="112" width="46" height="26" fill="none" stroke="#D6D6D6"/><path d="M66 121 L112 121 M89 112 L89 138" stroke="#E4E4E4"/></svg>
+            </div>
+            <p style="margin:7px 0 0;text-align:center;font-size:11.5px;color:#fff">図面.dxf</p>
+          </div>
+          <div>
+            <div style="border:1.5px dashed #B4B4B4;border-radius:4px;height:148px;display:flex;align-items:center;justify-content:center;color:#E4E4E4;font-size:26px">＋</div>
+            <p style="margin:7px 0 0;text-align:center;font-size:11.5px;color:#D6D6D6">追加</p>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:#E9E3D8;border-radius:10px;padding:16px">
+        <div style="display:flex;align-items:center;margin-bottom:12px">
+          <h3 style="margin:0;font-size:16px;font-weight:700;color:#3A3428;flex:none">メッセージ</h3>
+          <span style="margin-left:auto;font-size:11.5px;color:#6B6455;flex:none">全部署に通知</span>
+        </div>
+        <div style="background:#fff;border-radius:6px;overflow:hidden;margin-bottom:12px">
+          <div style="display:flex;align-items:center;gap:10px;background:#6E6E6E;color:#fff;padding:8px 14px;font-size:11.5px;font-variant-numeric:tabular-nums">
+            <span style="flex:none">2025/12/01 12:34</span><span style="margin-left:auto;flex:none">製造部 旭野 製鋼</span>
+          </div>
+          <div style="padding:13px 14px">
+            <p style="margin:0;font-size:12.5px;line-height:1.8"><span style="color:#1B6FD0">@営業事務</span><br>見積を外注へ確認するようにしてください。</p>
+            <div style="border-top:1px solid #EDEDED;margin-top:11px;padding-top:11px">
+              <p style="margin:0;font-size:11.5px;color:#8A8A8A;font-variant-numeric:tabular-nums">2025/12/01 15:02　営業事務 旭野 製鋼</p>
+              <p style="margin:4px 0 0;font-size:12.5px;line-height:1.8">A社へ見積を依頼しました。回答は12/3の予定です。</p>
+            </div>
+          </div>
+        </div>
+        <div style="background:#fff;border-radius:6px;overflow:hidden">
+          <div style="display:flex;align-items:center;gap:10px;background:#6E6E6E;color:#fff;padding:8px 14px;font-size:11.5px;font-variant-numeric:tabular-nums">
+            <span style="flex:none">2025/12/02 09:15</span><span style="margin-left:auto;flex:none">品質保証部 旭野 製鋼</span>
+          </div>
+          <div style="padding:13px 14px">
+            <p style="margin:0;font-size:12.5px;line-height:1.8">検査成績書の様式を確認します。ご要望の書式があればご共有ください。</p>
+          </div>
+        </div>
+        <sc-if value="{{ hasSent }}">
+          <div style="background:#fff;border-radius:6px;overflow:hidden;margin-top:12px">
+            <div style="display:flex;align-items:center;gap:10px;background:#1B6FD0;color:#fff;padding:8px 14px;font-size:11.5px">
+              <span style="flex:none">送信しました</span><span style="margin-left:auto;flex:none">営業部 山田 太郎</span>
+            </div>
+            <div style="padding:13px 14px"><p style="margin:0;font-size:12.5px;line-height:1.8">{{ sentText }}</p></div>
+          </div>
+        </sc-if>
+        <div style="margin-top:14px">
+          <textarea placeholder="メッセージを入力…" onChange="{{ onDraft }}" ref="{{ taRef }}" style="width:100%;height:70px;border:1px solid #CFC7B8;border-radius:6px;background:#fff;padding:10px 12px;font-family:inherit;font-size:12.5px;color:#1A1A1A;resize:vertical;outline:none;box-sizing:border-box;display:block" style-focus="border-color:#8C8472"></textarea>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:9px">
+            <span style="font-size:11.5px;color:#6B6455;flex:none">ファイル添付</span>
+            <button onClick="{{ onSend }}" style="margin-left:auto;background:#E60012;color:#fff;border:0;font-family:inherit;font-size:12.5px;padding:8px 22px;border-radius:16px;cursor:pointer;flex:none" style-hover="background:#C1000F">送信</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ modalOpen }}">
+    <div style="position:fixed;inset:0;background:rgba(17,17,17,.45);display:flex;align-items:center;justify-content:center;padding:24px;z-index:50">
+      <div style="width:520px;max-width:100%;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 18px 48px rgba(0,0,0,.28)">
+        <div style="display:flex;align-items:center;gap:12px;padding:16px 22px;background:#F1F1F1;border-bottom:1px solid #E4E4E4">
+          <span style="font-size:16px;font-weight:700;flex:none;white-space:nowrap">見積概算の入力</span>
+          <span style="font-size:11.5px;color:#8A8A8A;font-variant-numeric:tabular-nums;flex:none">#A-0123　株式会社◯◯精機</span>
+          <button onClick="{{ closeModal }}" style="margin-left:auto;border:0;background:transparent;font-family:inherit;font-size:18px;color:#8A8A8A;cursor:pointer;line-height:1;flex:none" style-hover="color:#E60012">✕</button>
+        </div>
+        <div style="padding:22px 22px 18px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);align-items:center;gap:14px">
+            <span style="font-size:12.5px;color:#5C5C5C">製造部</span>
+            <input type="text" value="182000" onChange="{{ onMfg }}" style="height:42px;border:1px solid #DCDCDC;border-radius:6px;padding:0 13px;font-family:inherit;font-size:13.5px;font-variant-numeric:tabular-nums;outline:none;box-sizing:border-box;width:100%" style-focus="border-color:#E60012">
+          </div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);align-items:center;gap:14px">
+            <span style="font-size:12.5px;color:#5C5C5C">外注A社</span>
+            <input type="text" value="128000" onChange="{{ onA }}" style="height:42px;border:1px solid #DCDCDC;border-radius:6px;padding:0 13px;font-family:inherit;font-size:13.5px;font-variant-numeric:tabular-nums;outline:none;box-sizing:border-box;width:100%" style-focus="border-color:#E60012">
+          </div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);align-items:center;gap:14px">
+            <span style="font-size:12.5px;color:#5C5C5C">外注B社</span>
+            <input type="text" placeholder="回答待ち" onChange="{{ onB }}" style="height:42px;border:1px solid #DCDCDC;border-radius:6px;padding:0 13px;font-family:inherit;font-size:13.5px;font-variant-numeric:tabular-nums;outline:none;box-sizing:border-box;width:100%" style-focus="border-color:#E60012">
+          </div>
+          <div style="display:grid;grid-template-columns:120px minmax(0,1fr);align-items:start;gap:14px">
+            <span style="font-size:12.5px;color:#5C5C5C;padding-top:9px">備考</span>
+            <textarea placeholder="材料費の前提、外注の見込みなど" style="height:64px;border:1px solid #DCDCDC;border-radius:6px;padding:9px 13px;font-family:inherit;font-size:12.5px;outline:none;resize:vertical;box-sizing:border-box;width:100%;display:block" style-focus="border-color:#E60012"></textarea>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;background:#FAFAFA;border:1px solid #E7E7E7;border-radius:6px;padding:13px 16px">
+            <span style="font-size:13px;color:#5C5C5C;flex:none">概算合計</span>
+            <span style="margin-left:auto;font-size:22px;font-weight:700;font-variant-numeric:tabular-nums;flex:none">{{ draftTotal }}</span>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:flex-end;gap:10px;padding:14px 22px;background:#FAFAFA;border-top:1px solid #EDEDED">
+          <button onClick="{{ closeModal }}" style="border:1px solid #DCDCDC;background:#fff;color:#3A3A3A;font-family:inherit;font-size:13px;padding:9px 20px;border-radius:6px;cursor:pointer" style-hover="background:#F1F1F1">キャンセル</button>
+          <button onClick="{{ saveModal }}" style="border:0;background:#E60012;color:#fff;font-family:inherit;font-size:13px;padding:9px 24px;border-radius:6px;cursor:pointer" style-hover="background:#C1000F">保存する</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    modalOpen: false,
+    saved: { mfg: 182000, a: 128000, b: null },
+    draft: { mfg: 182000, a: 128000, b: null },
+    sent: ''
+  };
+  yen(n) { return n == null || n === '' ? '回答待ち' : '¥' + Number(n).toLocaleString('ja-JP'); }
+  num(v) { const n = parseInt(String(v).replace(/[^0-9]/g, ''), 10); return isNaN(n) ? null : n; }
+  renderVals() {
+    const s = this.state.saved, d = this.state.draft;
+    const total = (s.mfg || 0) + (s.a || 0) + (s.b || 0);
+    const dTotal = (d.mfg || 0) + (d.a || 0) + (d.b || 0);
+    const setD = k => e => this.setState(st => ({ draft: Object.assign({}, st.draft, { [k]: this.num(e.target.value) }) }));
+    return {
+      vMfg: this.yen(s.mfg), vA: this.yen(s.a), vB: this.yen(s.b),
+      vTotal: '¥' + total.toLocaleString('ja-JP'),
+      draftTotal: '¥' + dTotal.toLocaleString('ja-JP'),
+      modalOpen: this.state.modalOpen,
+      openModal: () => this.setState(st => ({ modalOpen: true, draft: Object.assign({}, st.saved) })),
+      closeModal: () => this.setState({ modalOpen: false }),
+      saveModal: () => this.setState(st => ({ saved: Object.assign({}, st.draft), modalOpen: false })),
+      onMfg: setD('mfg'), onA: setD('a'), onB: setD('b'),
+      hasSent: !!this.state.sent,
+      sentText: this.state.sent,
+      taRef: el => { this.ta = el; },
+      onDraft: e => { this.msg = e.target.value; },
+      onSend: () => {
+        const t = (this.msg || '').trim();
+        if (!t) return;
+        if (this.ta) this.ta.value = '';
+        this.msg = '';
+        this.setState({ sent: t });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

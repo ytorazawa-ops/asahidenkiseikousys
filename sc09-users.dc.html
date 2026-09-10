@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#fff}
+body{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic Medium",Meiryo,sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:"palt" 1;color:#1A1A1A}
+a{color:#1B6FD0;text-decoration:none}
+a:hover{color:#E60012}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#fff;min-width:1180px">
+  <div style="position:relative;height:78px;background:#F4F4F4;border-bottom:1px solid #E8E8E8;display:flex;align-items:center;padding:0 300px 0 34px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <span style="width:22px;height:22px;background:#E60012;border-radius:3px;display:block;flex:none"></span>
+      <span style="font-size:20px;font-weight:700;letter-spacing:.02em;flex:none;white-space:nowrap">旭電気製鋼株式会社</span>
+      <span style="font-size:18px;font-weight:500;color:#3A3A3A;margin-left:12px;flex:none;white-space:nowrap">ユーザー管理</span>
+      <span style="border:1px solid #DCDCDC;color:#6B6B6B;font-size:11.5px;padding:3px 11px;border-radius:12px;background:#fff;flex:none;white-space:nowrap">管理者のみ</span>
+    </div>
+    <div style="position:absolute;top:0;right:0;height:64px;background:#111;color:#fff;border-radius:0 0 16px 16px;display:flex;align-items:center;gap:11px;padding:0 30px">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="flex:none"><circle cx="11" cy="11" r="9.4" stroke="#fff" stroke-width="1.4"/><circle cx="11" cy="8.6" r="2.6" fill="#fff"/><path d="M5.8 17.4c.7-2.8 2.7-4.2 5.2-4.2s4.5 1.4 5.2 4.2" fill="#fff"/></svg>
+      <span style="font-size:15px;font-weight:500;letter-spacing:.04em;flex:none;white-space:nowrap">山田 太郎</span>
+      <span style="font-size:11.5px;color:#9BA1A6;flex:none">営業部</span>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:26px;padding:0 34px;background:#fff;border-bottom:1px solid #E8E8E8">
+    <a href="sc04-dashboard.dc.html" style="font-size:13.5px;color:#6B6B6B;padding:13px 0 11px;flex:none" style-hover="color:#111">ダッシュボード</a>
+    <a href="sc05-list.dc.html" style="font-size:13.5px;color:#6B6B6B;padding:13px 0 11px;flex:none" style-hover="color:#111">案件一覧</a>
+    <span style="font-size:13.5px;font-weight:700;padding:13px 0 11px;border-bottom:2px solid #E60012;flex:none">ユーザー管理</span>
+    <a href="sc10-settings.dc.html" style="font-size:13.5px;color:#6B6B6B;padding:13px 0 11px;flex:none" style-hover="color:#111">スコア・通知設定</a>
+    <a href="sc03-login.dc.html" style="margin-left:auto;font-size:12px;color:#9A9A9A;flex:none" style-hover="color:#E60012">ログアウト</a>
+  </div>
+
+  <div style="padding:26px 34px 44px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <h3 style="margin:0;font-size:16px;font-weight:700;flex:none;white-space:nowrap">アカウント一覧</h3>
+      <span style="font-size:11.5px;color:#8A8A8A;flex:none">6件</span>
+      <span style="margin-left:auto;background:#E60012;color:#fff;font-size:12.5px;padding:7px 18px;border-radius:16px;flex:none;white-space:nowrap">ユーザーを追加</span>
+    </div>
+    <div style="border:1px solid #E4E4E4;border-radius:8px;overflow:hidden">
+      <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 130px 100px minmax(0,1.2fr) 92px 56px;gap:14px;padding:12px 18px;background:#F4F4F4;border-bottom:1px solid #E7E7E7;font-size:11.5px;color:#6B6B6B;letter-spacing:.04em">
+        <span>氏名</span><span>部署</span><span>権限</span><span>通知先</span><span>状態</span><span style="text-align:center">編集</span>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 130px 100px minmax(0,1.2fr) 92px 56px;gap:14px;padding:13px 18px;border-bottom:1px solid #EDEDED;font-size:13px;align-items:center">
+        <span style="display:flex;align-items:center;gap:10px;font-weight:700"><span style="width:26px;height:26px;border-radius:50%;background:#F1F1F1;border:1px solid #E4E4E4;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6B6B6B;flex:none">山</span>山田 太郎</span>
+        <span style="color:#5C5C5C">営業部</span>
+        <span style="background:#111;color:#fff;font-size:11px;padding:3px 0;border-radius:3px;text-align:center">管理者</span>
+        <span style="color:#5C5C5C">Chatwork・メール</span>
+        <span style="color:#2E6B44">有効</span>
+        <span style="display:flex;justify-content:center"><span style="width:30px;height:30px;border:1px solid #DCDCDC;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" style-hover="border-color:#E60012;background:#FCF1F1"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M2.5 13.5h3l7.2-7.2a1.6 1.6 0 0 0 0-2.3l-.7-.7a1.6 1.6 0 0 0-2.3 0L2.5 10.5v3z" stroke="#6B6B6B" stroke-width="1.2"/><path d="M9.6 4.2l2.2 2.2" stroke="#6B6B6B" stroke-width="1.2"/></svg></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 130px 100px minmax(0,1.2fr) 92px 56px;gap:14px;padding:13px 18px;border-bottom:1px solid #EDEDED;font-size:13px;align-items:center">
+        <span style="display:flex;align-items:center;gap:10px;font-weight:700"><span style="width:26px;height:26px;border-radius:50%;background:#F1F1F1;border:1px solid #E4E4E4;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6B6B6B;flex:none">◯</span>◯◯ ◯◯</span>
+        <span style="color:#5C5C5C">営業事務</span>
+        <span style="border:1px solid #DCDCDC;color:#6B6B6B;font-size:11px;padding:2px 0;border-radius:3px;text-align:center">一般</span>
+        <span style="color:#5C5C5C">Chatwork</span>
+        <span style="color:#2E6B44">有効</span>
+        <span style="display:flex;justify-content:center"><span style="width:30px;height:30px;border:1px solid #DCDCDC;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" style-hover="border-color:#E60012;background:#FCF1F1"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M2.5 13.5h3l7.2-7.2a1.6 1.6 0 0 0 0-2.3l-.7-.7a1.6 1.6 0 0 0-2.3 0L2.5 10.5v3z" stroke="#6B6B6B" stroke-width="1.2"/><path d="M9.6 4.2l2.2 2.2" stroke="#6B6B6B" stroke-width="1.2"/></svg></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 130px 100px minmax(0,1.2fr) 92px 56px;gap:14px;padding:13px 18px;border-bottom:1px solid #EDEDED;font-size:13px;align-items:center">
+        <span style="display:flex;align-items:center;gap:10px;font-weight:700"><span style="width:26px;height:26px;border-radius:50%;background:#F1F1F1;border:1px solid #E4E4E4;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6B6B6B;flex:none">◯</span>◯◯ ◯◯</span>
+        <span style="color:#5C5C5C">製造部</span>
+        <span style="border:1px solid #DCDCDC;color:#6B6B6B;font-size:11px;padding:2px 0;border-radius:3px;text-align:center">一般</span>
+        <span style="color:#5C5C5C">Chatwork</span>
+        <span style="color:#2E6B44">有効</span>
+        <span style="display:flex;justify-content:center"><span style="width:30px;height:30px;border:1px solid #DCDCDC;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" style-hover="border-color:#E60012;background:#FCF1F1"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M2.5 13.5h3l7.2-7.2a1.6 1.6 0 0 0 0-2.3l-.7-.7a1.6 1.6 0 0 0-2.3 0L2.5 10.5v3z" stroke="#6B6B6B" stroke-width="1.2"/><path d="M9.6 4.2l2.2 2.2" stroke="#6B6B6B" stroke-width="1.2"/></svg></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 130px 100px minmax(0,1.2fr) 92px 56px;gap:14px;padding:13px 18px;border-bottom:1px solid #EDEDED;font-size:13px;align-items:center">
+        <span style="display:flex;align-items:center;gap:10px;font-weight:700"><span style="width:26px;height:26px;border-radius:50%;background:#F1F1F1;border:1px solid #E4E4E4;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6B6B6B;flex:none">◯</span>◯◯ ◯◯</span>
+        <span style="color:#5C5C5C">品質保証部</span>
+        <span style="border:1px solid #DCDCDC;color:#6B6B6B;font-size:11px;padding:2px 0;border-radius:3px;text-align:center">一般</span>
+        <span style="color:#5C5C5C">メール</span>
+        <span style="color:#2E6B44">有効</span>
+        <span style="display:flex;justify-content:center"><span style="width:30px;height:30px;border:1px solid #DCDCDC;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" style-hover="border-color:#E60012;background:#FCF1F1"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M2.5 13.5h3l7.2-7.2a1.6 1.6 0 0 0 0-2.3l-.7-.7a1.6 1.6 0 0 0-2.3 0L2.5 10.5v3z" stroke="#6B6B6B" stroke-width="1.2"/><path d="M9.6 4.2l2.2 2.2" stroke="#6B6B6B" stroke-width="1.2"/></svg></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 130px 100px minmax(0,1.2fr) 92px 56px;gap:14px;padding:13px 18px;border-bottom:1px solid #EDEDED;font-size:13px;align-items:center">
+        <span style="display:flex;align-items:center;gap:10px;font-weight:700"><span style="width:26px;height:26px;border-radius:50%;background:#F1F1F1;border:1px solid #E4E4E4;display:flex;align-items:center;justify-content:center;font-size:11px;color:#6B6B6B;flex:none">◯</span>◯◯ ◯◯</span>
+        <span style="color:#5C5C5C">営業部</span>
+        <span style="background:#6E6E6E;color:#fff;font-size:11px;padding:3px 0;border-radius:3px;text-align:center">部長</span>
+        <span style="color:#5C5C5C">Chatwork・SMS</span>
+        <span style="color:#2E6B44">有効</span>
+        <span style="display:flex;justify-content:center"><span style="width:30px;height:30px;border:1px solid #DCDCDC;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" style-hover="border-color:#E60012;background:#FCF1F1"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M2.5 13.5h3l7.2-7.2a1.6 1.6 0 0 0 0-2.3l-.7-.7a1.6 1.6 0 0 0-2.3 0L2.5 10.5v3z" stroke="#6B6B6B" stroke-width="1.2"/><path d="M9.6 4.2l2.2 2.2" stroke="#6B6B6B" stroke-width="1.2"/></svg></span></span>
+      </div>
+      <div style="display:grid;grid-template-columns:minmax(0,1.3fr) 130px 100px minmax(0,1.2fr) 92px 56px;gap:14px;padding:13px 18px;font-size:13px;align-items:center;background:#FAFAFA">
+        <span style="display:flex;align-items:center;gap:10px;color:#AEAEAE"><span style="width:26px;height:26px;border-radius:50%;background:#F1F1F1;border:1px solid #E8E8E8;display:flex;align-items:center;justify-content:center;font-size:11px;color:#BEBEBE;flex:none">◯</span>◯◯ ◯◯</span>
+        <span style="color:#AEAEAE">設計部</span>
+        <span style="border:1px solid #E8E8E8;color:#BEBEBE;font-size:11px;padding:2px 0;border-radius:3px;text-align:center">一般</span>
+        <span style="color:#AEAEAE">—</span>
+        <span style="color:#AEAEAE">無効</span>
+        <span style="display:flex;justify-content:center"><span style="width:30px;height:30px;border:1px solid #E8E8E8;border-radius:6px;background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex:none" style-hover="border-color:#E60012;background:#FCF1F1"><svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M2.5 13.5h3l7.2-7.2a1.6 1.6 0 0 0 0-2.3l-.7-.7a1.6 1.6 0 0 0-2.3 0L2.5 10.5v3z" stroke="#BEBEBE" stroke-width="1.2"/><path d="M9.6 4.2l2.2 2.2" stroke="#BEBEBE" stroke-width="1.2"/></svg></span></span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

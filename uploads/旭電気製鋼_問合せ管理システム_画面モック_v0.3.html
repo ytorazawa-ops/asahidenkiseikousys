@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>問合せ管理システム 画面モック v0.3｜旭電気製鋼株式会社</title>
+<style>
+:root{
+--ink:#17191C; --ink2:#3D434A; --mid:#5F656D; --faint:#949AA1;
+--line:#E5E8EA; --line2:#D3D8DB; --paper:#F2F4F5; --card:#FFFFFF; --sunk:#FAFBFB;
+--brand:#B3121A; --brand-d:#8C0E14; --brand-bg:#FCEFEF; --brand-line:#EBC9CB;
+--gr:#1B2026; --gr2:#262D34; --gr3:#39424B; --gr-t:#A6AEB6;
+--hot:#96540E; --hot-bg:#FCF4E8; --hot-line:#E7D2AE;
+--blue:#1B5FA6; --blue-bg:#EDF4FB; --blue-line:#C6DCF0;
+--ok:#2E6B44;
+--r:8px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+background:var(--paper); color:var(--ink);
+font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic Medium","Yu Gothic",Meiryo,sans-serif;
+font-size:13.5px; line-height:1.75; -webkit-font-smoothing:antialiased;
+font-feature-settings:"palt" 1;
+}
+button{font-family:inherit;cursor:pointer}
+.num{font-variant-numeric:tabular-nums;letter-spacing:.01em}
+
+/* ---------- layout ---------- */
+.app{display:grid;grid-template-columns:242px minmax(0,1fr);min-height:100vh}
+
+/* ---------- sidebar ---------- */
+.side{background:var(--gr);color:var(--gr-t);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{padding:22px 22px 18px;border-bottom:1px solid var(--gr3)}
+.brand .row{display:flex;align-items:center;gap:10px}
+.brand .bar{width:4px;height:26px;background:var(--brand);border-radius:1px}
+.brand h1{font-size:14.5px;font-weight:500;color:#fff;margin:0;letter-spacing:.03em}
+.brand p{margin:7px 0 0;font-size:11.5px;color:#7C858D;line-height:1.6}
+.navwrap{flex:1;overflow-y:auto;padding:14px 0}
+.navgroup{font-size:11px;color:#6E777F;padding:14px 22px 7px;letter-spacing:.09em}
+.navitem{display:flex;align-items:baseline;gap:11px;padding:8px 22px;cursor:pointer;border-left:3px solid transparent;font-size:13px;color:var(--gr-t);transition:background .12s,color .12s}
+.navitem:hover{background:var(--gr2);color:#E6EAED}
+.navitem.active{background:var(--gr2);color:#fff;border-left-color:var(--brand)}
+.navitem .id{font-size:10.5px;color:#6E777F;min-width:38px;letter-spacing:.04em}
+.navitem.active .id{color:#C97075}
+.sidefoot{border-top:1px solid var(--gr3);padding:16px 22px}
+.toggle{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--gr-t);user-select:none;cursor:pointer}
+.toggle:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:4px}
+.track{width:32px;height:18px;border-radius:9px;background:var(--gr3);position:relative;transition:background .15s;flex:none}
+.knob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#8D959C;transition:transform .15s,background .15s}
+.toggle.on .track{background:var(--brand)}
+.toggle.on .knob{transform:translateX(14px);background:#fff}
+
+/* ---------- main ---------- */
+.main{min-width:0}
+.stage{padding:30px 34px 90px;max-width:1120px}
+.screen{display:none}
+.screen.active{display:block;animation:in .18s ease-out}
+@keyframes in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.screen.active{animation:none}}
+.shead{display:flex;flex-wrap:wrap;align-items:baseline;gap:12px;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--line)}
+.shead h2{font-size:21px;font-weight:500;margin:0;letter-spacing:.02em;line-height:1.4;flex:none;white-space:nowrap}
+.shead .sc{font-size:11.5px;color:var(--faint);letter-spacing:.06em;white-space:nowrap;flex:none}
+.shead p{margin:0;font-size:12.5px;color:var(--mid);flex-basis:100%}
+
+.frame{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 1px 2px rgba(23,25,28,.04)}
+.fhead{padding:13px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:11px;background:linear-gradient(0deg,var(--sunk),var(--sunk))}
+.fhead .t{font-size:14.5px;font-weight:500;letter-spacing:.02em}
+.fhead .r{margin-left:auto;font-size:11.5px;color:var(--faint)}
+
+.note{margin-top:16px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--brand);border-radius:0 var(--r) var(--r) 0;padding:14px 18px}
+.note b{display:block;font-weight:500;font-size:12.5px;margin-bottom:5px;color:var(--brand-d)}
+.note ul{margin:0;padding-left:17px;font-size:12.5px;color:var(--mid)}
+.note li{margin:3px 0}
+.note .d{color:var(--ink2);font-variant-numeric:tabular-nums}
+body.hide-notes .note{display:none}
+
+.pad{padding:24px}
+.sect{padding:18px 20px;border-bottom:1px solid var(--line)}
+.sect:last-child{border-bottom:0}
+.sect h3{font-size:12.5px;font-weight:500;margin:0 0 11px;color:var(--mid);letter-spacing:.04em}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+
+/* ---------- form ---------- */
+.qnum{font-size:11px;color:var(--faint);letter-spacing:.08em;margin:0 0 4px}
+.q{font-size:16px;font-weight:500;margin:0 0 14px;letter-spacing:.01em}
+.q.sm{font-size:13.5px;margin-bottom:9px}
+.req{display:inline-block;font-size:10.5px;color:var(--brand);border:1px solid var(--brand-line);background:var(--brand-bg);border-radius:3px;padding:1px 6px;margin-left:8px;vertical-align:2px;letter-spacing:.04em}
+.opt{position:relative;border:1px solid var(--line2);border-radius:var(--r);padding:14px 16px 14px 44px;cursor:pointer;background:#fff;transition:border-color .12s,background .12s}
+.opt:before{content:"";position:absolute;left:16px;top:17px;width:15px;height:15px;border-radius:50%;border:1.5px solid var(--line2);background:#fff;transition:border-color .12s}
+.opt:hover{border-color:var(--faint)}
+.opt.sel{border-color:var(--blue);background:var(--blue-bg)}
+.opt.sel:before{border:5px solid var(--blue)}
+.opt .n{font-size:14px;font-weight:500;margin:0;line-height:1.5}
+.opt .d{font-size:12px;color:var(--mid);margin:1px 0 0;line-height:1.5}
+.opt.sel .n{color:#154C85}
+.opt.sel .d{color:var(--blue)}
+
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:18px;padding:6px 15px;font-size:12.5px;cursor:pointer;background:#fff;margin:0 7px 7px 0;transition:border-color .12s,background .12s}
+.chip:hover{border-color:var(--faint)}
+.chip.sel{border-color:var(--blue);background:var(--blue-bg);color:#154C85}
+.chip.sel:before{content:"✓";font-size:11px;color:var(--blue)}
+.chipbox{border-radius:var(--r);margin:0}
+
+.lbl{font-size:12px;color:var(--mid);margin:0 0 6px;letter-spacing:.02em}
+.field{border:1px solid var(--line2);border-radius:6px;height:40px;background:#fff;transition:border-color .12s}
+.field:hover{border-color:var(--faint)}
+.sel-fake{border:1px solid var(--line2);border-radius:6px;padding:9px 13px;font-size:13px;color:var(--faint);background:#fff;display:flex;justify-content:space-between;align-items:center}
+.sel-fake .cv{color:var(--faint);font-size:10px}
+.hint{font-size:11.5px;color:var(--faint);margin:6px 0 0;line-height:1.65}
+.drop{border:1.5px dashed var(--line2);border-radius:var(--r);padding:30px;text-align:center;color:var(--mid);font-size:13px;background:var(--sunk)}
+.drop b{display:block;font-weight:500;color:var(--ink2);margin-bottom:3px}
+
+.steps{display:flex;align-items:center;gap:0;padding:0;border-bottom:1px solid var(--line);background:var(--sunk)}
+.st{flex:1;padding:11px 8px 10px;text-align:center;font-size:11.5px;color:var(--faint);border-bottom:2px solid transparent;position:relative}
+.st .k{display:block;font-size:10.5px;letter-spacing:.08em;margin-bottom:1px}
+.st.done{color:var(--mid);border-bottom-color:var(--line2)}
+.st.now{color:var(--brand);border-bottom-color:var(--brand);font-weight:500}
+
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+.btn{border:1px solid var(--line2);background:#fff;border-radius:6px;padding:9px 20px;font-size:13.5px;color:var(--ink2);transition:background .12s,border-color .12s}
+.btn:hover{background:var(--sunk);border-color:var(--faint)}
+.btn.pri{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.pri:hover{background:var(--brand-d);border-color:var(--brand-d)}
+.btn.sm{padding:6px 14px;font-size:12.5px}
+.btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* ---------- table ---------- */
+table{width:100%;border-collapse:collapse;font-size:12.5px;table-layout:fixed}
+th{text-align:left;font-weight:500;color:var(--mid);padding:10px 12px;background:var(--sunk);border-bottom:1px solid var(--line);font-size:11.5px;letter-spacing:.04em}
+td{padding:12px;border-bottom:1px solid var(--line);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--ink2)}
+td.strong{color:var(--ink)}
+tr.row{transition:background .1s}
+tr.row:hover td{background:var(--sunk);cursor:pointer}
+tr.hot td:first-child{box-shadow:inset 3px 0 0 var(--brand)}
+
+.score{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:23px;border-radius:4px;font-size:12.5px;font-weight:500;font-variant-numeric:tabular-nums;border:1px solid var(--line2);color:var(--ink2);background:#fff}
+.score.hot{background:var(--brand);border-color:var(--brand);color:#fff}
+.score.mid{border-color:var(--hot-line);background:var(--hot-bg);color:var(--hot)}
+
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:11px;border:1px solid var(--line2);color:var(--mid);background:#fff;letter-spacing:.02em}
+.pill.hot{background:var(--brand-bg);border-color:var(--brand-line);color:var(--brand-d)}
+.pill.blue{background:var(--blue-bg);border-color:var(--blue-line);color:var(--blue)}
+.dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px;vertical-align:1px}
+.dot.red{background:var(--brand)} .dot.blue{background:var(--blue)} .dot.gray{background:var(--line2)}
+.dep{display:inline-flex;width:20px;height:20px;border-radius:4px;align-items:center;justify-content:center;font-size:10.5px;background:var(--sunk);border:1px solid var(--line);color:var(--mid);margin-right:3px}
+.dep.on{background:var(--brand-bg);border-color:var(--brand-line);color:var(--brand-d)}
+
+.tabs{display:flex;gap:24px;padding:0 20px;border-bottom:1px solid var(--line);align-items:center;background:#fff}
+.tab{font-size:13.5px;color:var(--mid);cursor:pointer;padding:13px 0 11px;border-bottom:2px solid transparent;transition:color .12s}
+.tab:hover{color:var(--ink)}
+.tab.sel{color:var(--ink);border-bottom-color:var(--ink);font-weight:500}
+.filters{display:flex;gap:8px;flex-wrap:wrap;padding:12px 20px;border-bottom:1px solid var(--line);align-items:center;background:var(--sunk)}
+.filter{border:1px solid var(--line2);border-radius:15px;padding:4px 13px;font-size:11.5px;color:var(--mid);background:#fff}
+.filter.on{border-color:var(--ink);color:var(--ink)}
+.search{margin-left:auto;border:1px solid var(--line2);border-radius:6px;padding:5px 13px;font-size:11.5px;color:var(--faint);min-width:180px;background:#fff}
+.foot{padding:11px 20px;font-size:11.5px;color:var(--faint);display:flex;justify-content:space-between;align-items:center;background:var(--sunk);border-top:1px solid var(--line)}
+.foot a{color:var(--blue);text-decoration:none}
+
+.stat{background:var(--sunk);border:1px solid var(--line);border-radius:var(--r);padding:13px 15px}
+.stat .k{font-size:11.5px;color:var(--mid);margin:0;letter-spacing:.03em}
+.stat .v{font-size:26px;font-weight:500;margin:1px 0 0;line-height:1.25;font-variant-numeric:tabular-nums}
+.stat.hot{background:var(--brand-bg);border-color:var(--brand-line)}
+.stat.hot .k{color:var(--brand-d)} .stat.hot .v{color:var(--brand)}
+
+.split{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+.split>div:first-child{border-right:1px solid var(--line)}
+.item{padding:13px 20px;border-bottom:1px solid var(--line);transition:background .1s}
+.item:hover{background:var(--sunk)}
+.item .h{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.item .m{font-size:11.5px;color:var(--mid);margin:3px 0 0}
+.item .d{font-size:11px;color:var(--faint);white-space:nowrap}
+
+.av{width:26px;height:26px;border-radius:50%;background:var(--sunk);border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;color:var(--mid);flex:none}
+.msg{display:flex;gap:10px;padding:13px 18px;border-bottom:1px solid var(--line)}
+.msg .b{min-width:0}
+.msg .mh{font-size:11px;color:var(--faint);margin:0 0 2px}
+.msg .mt{font-size:12.5px;margin:0;color:var(--ink2);line-height:1.7}
+.at{color:var(--blue)}
+
+.pipe{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.pstep{border:1px solid var(--line);border-radius:var(--r);padding:10px 8px;text-align:center;background:var(--sunk)}
+.pstep .n{font-size:12px;color:var(--faint);margin:0}
+.pstep .s{font-size:10.5px;color:var(--faint);margin:2px 0 0;font-variant-numeric:tabular-nums}
+.pstep.done{background:#fff}
+.pstep.done .n{color:var(--ink2)} .pstep.done .s{color:var(--mid)}
+.pstep.now{border-color:var(--brand);background:var(--brand-bg)}
+.pstep.now .n{color:var(--brand-d);font-weight:500} .pstep.now .s{color:var(--brand)}
+
+
+/* timeline */
+.tl{padding:4px 2px 2px}
+.tlnodes{display:grid;grid-template-columns:repeat(8,minmax(0,1fr))}
+.tlnode{position:relative;display:flex;justify-content:center;align-items:center;height:34px}
+.tlnode:before{content:"";position:absolute;top:50%;left:0;right:0;height:1px;background:var(--line2)}
+.tlnode:first-child:before{left:50%}
+.tlnode:last-child:before{right:50%}
+.dotn{width:13px;height:13px;border-radius:50%;background:#fff;border:2px solid var(--line2);position:relative;z-index:1}
+.tlnode.done .dotn{background:var(--mid);border-color:var(--mid)}
+.tlnode.now .dotn{background:var(--brand);border-color:var(--brand);box-shadow:0 0 0 5px var(--brand-bg)}
+.tlcards{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;margin-top:4px}
+.tlcard{border:1px solid var(--line);border-radius:var(--r);padding:10px 6px 9px;text-align:center;background:#fff}
+.tlcard.now{border-color:var(--brand);background:var(--brand-bg)}
+.tlcard .n{font-size:12px;font-weight:500;margin:0;color:var(--ink2)}
+.tlcard.now .n{color:var(--brand-d)}
+.tlcard .dt{font-size:11px;margin:1px 0 0;color:var(--faint);font-variant-numeric:tabular-nums}
+.tlcard .dp{font-size:10.5px;margin:5px 0 6px;color:var(--faint)}
+.stb{display:inline-block;font-size:10px;border-radius:3px;padding:1px 7px;border:1px solid;letter-spacing:.02em}
+.stb.no{color:var(--brand);border-color:var(--brand-line);background:#fff}
+.stb.doing{color:var(--blue);border-color:var(--blue-line);background:#fff}
+.stb.fin{color:var(--mid);border-color:var(--line2);background:var(--sunk)}
+
+/* thumbnails */
+.thumbs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.thumb{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:#fff;transition:border-color .12s}
+.thumb:hover{border-color:var(--faint);cursor:pointer}
+.thumb .im{display:block;width:100%;background:var(--sunk);border-bottom:1px solid var(--line)}
+.thumb .cap{font-size:11px;color:var(--mid);padding:7px 8px;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.thumb.add{display:flex;align-items:center;justify-content:center;border-style:dashed;border-color:var(--line2);color:var(--faint);font-size:22px;min-height:132px}
+.thumb.add:hover{background:var(--sunk)}
+.out{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;padding:6px 0;border-bottom:1px solid var(--line)}
+.out:last-child{border-bottom:0}
+.out .c{color:var(--ink2)}
+.out .v{color:var(--mid);font-variant-numeric:tabular-nums}
+.kv{display:flex;justify-content:space-between;font-size:12.5px;padding:5px 0;color:var(--ink2)}
+.kv span:first-child{color:var(--mid)}
+.kv.total{border-top:1px solid var(--line);margin-top:5px;padding-top:8px;font-weight:500}
+.kv.total span:first-child{color:var(--ink)}
+.kv .n{font-variant-numeric:tabular-nums}
+.task{font-size:12.5px;color:var(--ink2);padding:4px 0;display:flex;gap:9px;align-items:center}
+.box{width:13px;height:13px;border:1px solid var(--line2);border-radius:3px;flex:none;background:#fff}
+.tag{display:inline-flex;align-items:center;gap:7px;font-size:11.5px;border:1px solid var(--line);border-radius:6px;padding:6px 11px;margin:0 7px 7px 0;color:var(--ink2);background:#fff}
+.tag i{width:16px;height:20px;border:1px solid var(--line2);border-radius:2px;background:var(--sunk);display:block}
+
+.meter{flex:1;height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.meter i{display:block;height:6px;background:var(--brand);border-radius:3px}
+.mrow{display:flex;align-items:center;gap:16px;font-size:13px;margin:11px 0}
+.mrow .nm{width:196px;color:var(--ink2)}
+.mrow .vl{width:44px;text-align:right;font-variant-numeric:tabular-nums;color:var(--mid)}
+.center{max-width:390px;margin:0 auto}
+.faint{color:var(--faint)}
+
+@media (max-width:900px){
+.app{grid-template-columns:1fr}
+.side{position:static;height:auto}
+.navwrap{display:flex;flex-wrap:wrap;padding:8px}
+.navgroup{display:none}
+.navitem{border-left:0;border-radius:6px;padding:7px 13px}
+.navitem.active{border-left:0}
+.stage{padding:20px}
+.split{grid-template-columns:1fr}
+.split>div:first-child{border-right:0;border-bottom:1px solid var(--line)}
+.pipe{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<aside class="side">
+  <div class="brand">
+    <div class="row"><span class="bar"></span><h1>問合せ管理システム</h1></div>
+    <p>旭電気製鋼株式会社<br>画面モック　Phase 1　v0.3</p>
+  </div>
+  <div class="navwrap" id="nav">
+    <p class="navgroup">顧客が使う画面</p>
+    <div class="navitem active" data-t="s01"><span class="id">SC-01</span><span>問合せフォーム</span></div>
+    <div class="navitem" data-t="s02"><span class="id">SC-02</span><span>送信完了</span></div>
+    <p class="navgroup">社内が使う画面</p>
+    <div class="navitem" data-t="s03"><span class="id">SC-03</span><span>ログイン</span></div>
+    <div class="navitem" data-t="s04"><span class="id">SC-04</span><span>ダッシュボード</span></div>
+    <div class="navitem" data-t="s05"><span class="id">SC-05</span><span>案件一覧</span></div>
+    <div class="navitem" data-t="s06"><span class="id">SC-06</span><span>案件詳細</span></div>
+    <p class="navgroup">管理者が使う画面</p>
+    <div class="navitem" data-t="s09"><span class="id">SC-09</span><span>ユーザー管理</span></div>
+    <div class="navitem" data-t="s10"><span class="id">SC-10</span><span>スコア・通知設定</span></div>
+  </div>
+  <div class="sidefoot">
+    <div class="toggle on" id="notetoggle" role="button" tabindex="0" aria-pressed="true">
+      <span class="track"><span class="knob"></span></span><span>レビュー注記を表示</span>
+    </div>
+  </div>
+</aside>
+
+<main class="main"><div class="stage">
+
+<!-- ===== SC-01 ===== -->
+<section class="screen active" id="s01">
+<div class="shead"><h2>問合せフォーム</h2><span class="sc">SC-01</span>
+<p>LPに設置する4ステップのフォームです。STEP1の選択で、STEP2以降の設問が実際に切り替わります。</p></div>
+
+<div class="frame">
+  <div class="fhead"><span class="t">図面・技術相談フォーム</span><span class="r" id="branchlabel">旭電気製鋼株式会社</span></div>
+  <div class="steps">
+    <div class="st now" id="st1"><span class="k">STEP 1</span>お立場</div>
+    <div class="st" id="st2"><span class="k">STEP 2</span>ご相談内容</div>
+    <div class="st" id="st3"><span class="k">STEP 3</span>数量・納期</div>
+    <div class="st" id="st4"><span class="k">STEP 4</span>お客様情報</div>
+  </div>
+
+  <div class="pad" id="fstep1">
+    <p class="qnum">Q1</p>
+    <p class="q">あなたのお立場をお選びください<span class="req">必須</span></p>
+    <div class="grid2" style="margin-bottom:28px" id="roleopts">
+      <div class="opt sel" data-role="design"><p class="n">設計・開発</p><p class="d">技術系の設問へ分岐します</p></div>
+      <div class="opt" data-role="proc"><p class="n">資材・調達・品質</p><p class="d">調達系の設問へ分岐します</p></div>
+      <div class="opt" data-role="both"><p class="n">両方を兼務</p><p class="d">両系統の設問を表示します</p></div>
+      <div class="opt" data-role="other"><p class="n">その他</p><p class="d">求人・業務提携などのご相談</p></div>
+    </div>
+    <p class="qnum">Q2</p>
+    <p class="q">現在の検討フェーズ<span class="req">必須</span></p>
+    <div data-chipgroup="phase"><span class="chip sel">初期設計</span><span class="chip">量産検討</span><span class="chip">調達切替</span><span class="chip">情報収集</span></div>
+    <p class="hint">この2問がホットスコア25点分（相談フェーズ）と、設問分岐の起点になります。</p>
+    <div class="actions"><span></span><button class="btn pri" data-go="2">次へ進む</button></div>
+  </div>
+
+  <div class="pad" id="fstep2" style="display:none">
+    <div id="designQ">
+      <p class="q">お困りごとをお選びください</p>
+      <p class="hint" style="margin:-8px 0 12px">複数選択できます</p>
+      <div class="grid2" style="margin-bottom:26px" data-chipgroup="trouble-d">
+        <span class="chip chipbox">他社に製作を断られた</span><span class="chip chipbox">加工可否が判断できない</span>
+        <span class="chip chipbox">部品の一体化を検討したい</span><span class="chip chipbox">コストを下げたい</span>
+        <span class="chip chipbox">特殊材の調達先がない</span><span class="chip chipbox">試作の期間を短縮したい</span>
+        <span class="chip chipbox">量産時に寸法が安定しない</span><span class="chip chipbox">工法の相談相手がいない</span>
+      </div>
+      <div class="grid2" style="margin-bottom:26px">
+        <div><p class="q sm">現在の製法</p><div class="sel-fake"><span>選択してください</span><span class="cv">▼</span></div>
+          <p class="hint">削り出し／溶接構造／他社で鋳造／鍛造／板金</p></div>
+        <div><p class="q sm">対象部品の材質</p><div class="sel-fake"><span>選択してください</span><span class="cv">▼</span></div>
+          <p class="hint">耐熱鋼・特殊合金を選ぶと技術部へ自動通知</p></div>
+      </div>
+    </div>
+    <div id="procQ" style="display:none">
+      <p class="q">お困りごとをお選びください</p>
+      <p class="hint" style="margin:-8px 0 12px">複数選択できます</p>
+      <div class="grid2" style="margin-bottom:26px" data-chipgroup="trouble-p">
+        <span class="chip chipbox">現行サプライヤーが廃業した</span><span class="chip chipbox">供給が停止している</span>
+        <span class="chip chipbox">品質不良が続いている</span><span class="chip chipbox">納期遅延が続いている</span>
+        <span class="chip chipbox">一方的な値上げがあった</span><span class="chip chipbox">海外調達を国内に戻したい</span>
+        <span class="chip chipbox">調達先を複数持ちたい</span><span class="chip chipbox">コストを下げたい</span>
+      </div>
+      <p class="q sm">品質・供給面で必要な対応</p>
+      <div style="margin-bottom:26px" data-chipgroup="qa">
+        <span class="chip">検査成績書</span><span class="chip">工場監査</span><span class="chip">ミルシート</span>
+        <span class="chip">トレーサビリティ</span><span class="chip">国内生産の指定</span><span class="chip">NDAの締結</span>
+      </div>
+    </div>
+    <p class="q sm">図面・3Dデータの添付</p>
+    <div class="drop"><b>ファイルをドラッグ＆ドロップ</b>またはクリックして選択　PDF・DXF・STEP・画像</div>
+    <p class="hint">任意ですが、添付の有無がホットスコア35点分を占めます。機密が必要な場合はその旨をご記入ください。</p>
+    <div class="actions"><button class="btn" data-go="1">戻る</button><button class="btn pri" data-go="3">次へ進む</button></div>
+  </div>
+
+  <div class="pad" id="fstep3" style="display:none">
+    <div class="grid2" style="margin-bottom:24px">
+      <div><p class="q sm" id="qtyLabel">想定数量</p><div class="sel-fake"><span>選択してください</span><span class="cv">▼</span></div>
+        <p class="hint">試作のみ／〜100個／〜1,000個／1,000個以上</p></div>
+      <div><p class="q sm">回答をご希望の時期</p><div class="sel-fake"><span>選択してください</span><span class="cv">▼</span></div>
+        <p class="hint">「至急」を選ぶと製造部へ追加通知されます</p></div>
+    </div>
+    <p class="q sm">ご相談内容</p>
+    <div class="field" style="height:104px"></div>
+    <p class="hint">自由記述　任意</p>
+    <div class="actions"><button class="btn" data-go="2">戻る</button><button class="btn pri" data-go="4">次へ進む</button></div>
+  </div>
+
+  <div class="pad" id="fstep4" style="display:none">
+    <div class="grid2" style="margin-bottom:22px">
+      <div><p class="lbl">会社名<span class="req">必須</span></p><div class="field"></div></div>
+      <div><p class="lbl">部署名</p><div class="field"></div></div>
+      <div><p class="lbl">お名前<span class="req">必須</span></p><div class="field"></div></div>
+      <div><p class="lbl">役職</p><div class="sel-fake"><span>担当／主任・係長／課長／部長以上</span><span class="cv">▼</span></div></div>
+      <div><p class="lbl">メールアドレス<span class="req">必須</span></p><div class="field"></div></div>
+      <div><p class="lbl">電話番号</p><div class="field"></div></div>
+    </div>
+    <div style="background:var(--sunk);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px">
+      <p class="hint" style="margin:0">個人情報の取扱い、および図面等の機密保持に関する記載が入ります。文言は未確定です。</p>
+    </div>
+    <div class="actions"><button class="btn" data-go="3">戻る</button><button class="btn pri" id="submitBtn">送信する</button></div>
+  </div>
+</div>
+
+<div class="note"><b>レビュー注記</b><ul>
+  <li><span class="d">D-19</span>　NDA締結前に図面を受領することの取扱い、およびフォーム上の免責文言</li>
+  <li><span class="d">D-20</span>　添付ファイルの容量上限、対応拡張子、保存期間</li>
+  <li>困りごとの選択肢8項目は仮置きです。実際の問合せ内容にもとづく見直しが必要です</li>
+</ul></div>
+</section>
+
+<!-- ===== SC-02 ===== -->
+<section class="screen" id="s02">
+<div class="shead"><h2>送信完了</h2><span class="sc">SC-02</span>
+<p>GA4のキーイベント計測点です。技術資料への導線でナーチャリングにつなぎます。</p></div>
+<div class="frame">
+  <div class="fhead"><span class="t">送信完了</span><span class="r">旭電気製鋼株式会社</span></div>
+  <div class="pad">
+    <div class="center" style="text-align:center;padding:34px 0">
+      <div style="width:44px;height:44px;border-radius:50%;background:var(--brand-bg);border:1px solid var(--brand-line);color:var(--brand);display:flex;align-items:center;justify-content:center;font-size:19px;margin:0 auto 16px">✓</div>
+      <p style="font-size:18px;font-weight:500;margin:0 0 10px;letter-spacing:.02em">お問い合わせを受け付けました</p>
+      <p style="font-size:13px;color:var(--mid);margin:0 0 26px">担当者より3営業日以内にご連絡します。<br>確認のメールをお送りしましたのでご確認ください。</p>
+      <div style="background:var(--sunk);border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;text-align:left;margin-bottom:22px;display:flex;justify-content:space-between;align-items:center">
+        <span class="lbl" style="margin:0">受付番号</span>
+        <span class="num" style="font-size:16px;font-weight:500">A-0124</span>
+      </div>
+      <button class="btn" style="width:100%">加工事例・技術資料を見る</button>
+    </div>
+  </div>
+</div>
+<div class="note"><b>レビュー注記</b><ul>
+  <li>一次回答の目標日数は判定区分により3段階（当日中／2営業日／3営業日）です。ここでは最も長い3営業日を表示しています</li>
+  <li>スコアに応じて文面を出し分けるかは要判断です</li>
+</ul></div>
+</section>
+
+<!-- ===== SC-03 ===== -->
+<section class="screen" id="s03">
+<div class="shead"><h2>ログイン</h2><span class="sc">SC-03</span><p>社内ユーザー向けの認証画面です。</p></div>
+<div class="frame">
+  <div class="fhead"><span class="t">ログイン</span><span class="r">社内ユーザー</span></div>
+  <div class="pad">
+    <div class="center" style="padding:26px 0">
+      <div style="text-align:center;margin-bottom:28px">
+        <div style="display:inline-flex;align-items:center;gap:9px;margin-bottom:6px">
+          <span style="width:4px;height:22px;background:var(--brand);border-radius:1px"></span>
+          <span style="font-size:16px;font-weight:500;letter-spacing:.03em">問合せ管理システム</span>
+        </div>
+        <p style="font-size:12px;color:var(--mid);margin:0">旭電気製鋼株式会社</p>
+      </div>
+      <p class="lbl">メールアドレス</p><div class="field" style="margin-bottom:18px"></div>
+      <p class="lbl">パスワード</p><div class="field" style="margin-bottom:24px"></div>
+      <button class="btn pri" style="width:100%">ログイン</button>
+      <p style="font-size:12.5px;color:var(--mid);text-align:center;margin:18px 0 0">パスワードをお忘れの方</p>
+    </div>
+  </div>
+</div>
+<div class="note"><b>レビュー注記</b><ul>
+  <li><span class="d">D-15</span>　顧客側にログイン機能を持たせるか。持たせる場合は別ログインを設けるか</li>
+  <li>二要素認証の要否、パスワードポリシー</li>
+</ul></div>
+</section>
+
+<!-- ===== SC-04 ===== -->
+<section class="screen" id="s04">
+<div class="shead"><h2>ダッシュボード</h2><span class="sc">SC-04</span>
+<p>朝一番に開いて、今日どこから着手するかを判断する画面です。</p></div>
+<div class="frame">
+  <div class="fhead"><span class="t">問い合わせダッシュボード</span>
+    <span class="r"><span class="av" style="vertical-align:-8px;margin-right:7px">山</span>山田 太郎　営業部</span></div>
+  <div class="sect">
+    <div class="grid4">
+      <div class="stat hot"><p class="k">最優先</p><p class="v">2</p></div>
+      <div class="stat"><p class="k">要フォロー</p><p class="v">7</p></div>
+      <div class="stat"><p class="k">自分の担当</p><p class="v">12</p></div>
+      <div class="stat"><p class="k">未対応</p><p class="v">4</p></div>
+    </div>
+  </div>
+  <div class="split">
+    <div>
+      <div class="sect" style="padding-bottom:0;border-bottom:0"><h3>新着問い合わせ</h3></div>
+      <div class="item" style="border-top:1px solid var(--line);box-shadow:inset 3px 0 0 var(--brand)">
+        <div class="h"><span><span class="score hot num">92</span>　<span style="font-weight:500">株式会社◯◯精機</span></span><span class="d">12/01</span></div>
+        <p class="m">設計・開発／他社に断られた／図面あり</p>
+      </div>
+      <div class="item" style="box-shadow:inset 3px 0 0 var(--brand)">
+        <div class="h"><span><span class="score hot num">88</span>　<span style="font-weight:500">△△工業株式会社</span></span><span class="d">11/30</span></div>
+        <p class="m">設計・開発／部品の一体化／図面あり</p>
+      </div>
+      <div class="item">
+        <div class="h"><span><span class="score mid num">72</span>　<span style="font-weight:500">◇◇電機株式会社</span></span><span class="d">11/29</span></div>
+        <p class="m">設計・開発／加工可否が不明／図面あり</p>
+      </div>
+      <div class="item">
+        <div class="h"><span><span class="score num">41</span>　<span style="font-weight:500">××商事株式会社</span></span><span class="d">11/28</span></div>
+        <p class="m">資材・調達／情報収集</p>
+      </div>
+      <div class="foot"><span>直近7日で12件</span><a href="#" data-jump="s05">すべての案件を見る</a></div>
+    </div>
+    <div>
+      <div class="sect" style="padding-bottom:0;border-bottom:0"><h3>承認依頼</h3></div>
+      <div class="item" style="border-top:1px solid var(--line)"><p style="margin:0;font-size:12.5px"><span class="num">#A-0123</span>　見積金額 <span class="num">¥310,000</span></p><p class="m">申請　営業事務</p></div>
+      <div class="item"><p style="margin:0;font-size:12.5px"><span class="num">#A-0121</span>　図面の最終承認</p><p class="m">申請　設計部</p></div>
+      <div class="sect" style="padding-bottom:0;border-bottom:0"><h3>あなた宛のメッセージ</h3></div>
+      <div class="item" style="border-top:1px solid var(--line)"><p style="margin:0;font-size:12.5px"><span class="dot red"></span><span class="num">#A-0123</span>　製造部</p><p class="m">見積を外注へ確認してください</p></div>
+      <div class="item"><p style="margin:0;font-size:12.5px"><span class="dot gray"></span><span class="num">#A-0120</span>　品質保証部</p><p class="m">検査成績書の様式を確認します</p></div>
+    </div>
+  </div>
+</div>
+<div class="note"><b>レビュー注記</b><ul>
+  <li><span class="d">D-09</span>　承認依頼の対象（見積金額／図面の最終承認）と、承認者・金額のしきい値</li>
+  <li>上部の集計カードは営業段階の仮案には無く、今回追加した要素です</li>
+  <li>ホットスコアを営業以外の部署にも表示するかは要判断です</li>
+</ul></div>
+</section>
+
+<!-- ===== SC-05 ===== -->
+<section class="screen" id="s05">
+<div class="shead"><h2>案件一覧</h2><span class="sc">SC-05</span>
+<p>性格の異なる2種類の案件をビュー切替で扱います。タブと行はクリックできます。</p></div>
+<div class="frame">
+  <div class="tabs">
+    <span class="tab sel" data-view="lead">新規リード</span>
+    <span class="tab" data-view="prog">進行案件</span>
+    <span style="margin-left:auto;font-size:11.5px;color:var(--faint)" id="sortlabel">並び順　スコア降順</span>
+  </div>
+  <div class="filters" id="filterrow"></div>
+  <div id="tablewrap"></div>
+  <div class="foot"><span id="legend"></span><a href="#">CSV出力</a></div>
+</div>
+<div class="note"><b>レビュー注記</b><ul>
+  <li><span class="d">D-01</span>　工程の段数。進行案件ビューのタブは暫定で8段階としています</li>
+  <li><span class="d">D-02</span>　一覧にスコア列を表示するか。営業段階の仮案には無い要素です</li>
+  <li><span class="d">D-08</span>　案件種別・問合せ区分・立場の3軸をどう持つか</li>
+  <li>通知欄は幅の都合で1文字表記としています。現場で読めるかの確認が必要です</li>
+</ul></div>
+</section>
+
+<!-- ===== SC-06 ===== -->
+<section class="screen" id="s06">
+<div class="shead"><h2>案件詳細</h2><span class="sc">SC-06</span>
+<p>全部署が同じ画面を見ながら並行して動くための画面です。</p></div>
+<div class="frame">
+  <div class="fhead">
+    <span class="num" style="font-size:12px;color:var(--faint)">#A-0123</span>
+    <span class="t">株式会社◯◯精機</span>
+    <span class="pill hot">最優先 92</span><span class="pill">見積</span>
+    <span class="r">受付 2025/12/01</span>
+  </div>
+  <div style="padding:11px 20px;border-bottom:1px solid var(--line);background:var(--sunk);display:flex;flex-wrap:wrap;gap:18px;align-items:center;font-size:12px">
+    <span style="color:var(--mid)">通知状況</span>
+    <span><span class="dot gray"></span>営業　既読</span>
+    <span><span class="dot gray"></span>製造　既読</span>
+    <span style="color:var(--brand)"><span class="dot red"></span>品証　未読</span>
+    <span class="faint">技術　対象外</span>
+    <span style="margin-left:auto;color:var(--mid)">スコア内訳　図面 35／フェーズ 25／困りごと 20／役職ほか 12</span>
+  </div>
+
+  <div class="split">
+    <div>
+      <div class="sect">
+        <h3>問い合わせ内容</h3>
+        <p style="font-size:13px;color:var(--ink2);margin:0 0 12px;line-height:1.85">部品名称：ワーク供給ガイド・スライダー仕様変更品。現行製品と同一材料ですが、摩耗部分を改善するため精度を ±0.02 → ±0.01 へ調整可能か確認希望。ねじ固定部の座ぐり寸法を添付図面参照で変更しています。必要数量5個、材質SUS304。追加で検査成績書の発行を希望します。</p>
+        <div style="display:flex;gap:20px;align-items:center;font-size:12px;color:var(--mid);padding-top:2px">
+          <span>希望納期　<span class="num" style="color:var(--ink2)">2026/02/01</span></span>
+          <span>数量　<span class="num" style="color:var(--ink2)">5個</span></span>
+          <span>材質　<span style="color:var(--ink2)">SUS304</span></span>
+        </div>
+      </div>
+      <div class="sect">
+        <h3>お客様からの添付</h3>
+        <div class="thumbs" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+          <div class="thumb"><svg class="im" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="0" y="0" width="120" height="150" fill="#FAFBFB"/><rect x="8" y="8" width="104" height="134" fill="none" stroke="#D3D8DB" stroke-width="1"/><rect x="30" y="30" width="60" height="42" fill="none" stroke="#8D959C" stroke-width="1.2"/><circle cx="60" cy="51" r="13" fill="none" stroke="#8D959C" stroke-width="1.2"/><circle cx="60" cy="51" r="5" fill="none" stroke="#8D959C" stroke-width="1"/><path d="M60 24 L60 78 M27 51 L93 51" stroke="#C3C9CD" stroke-width=".8" stroke-dasharray="5 2 1 2"/><path d="M30 84 L90 84" stroke="#A6ADB3" stroke-width=".8"/><path d="M30 81 L30 87 M90 81 L90 87" stroke="#A6ADB3" stroke-width=".8"/><rect x="52" y="88" width="16" height="5" fill="#EDF0F2"/><path d="M20 96 L100 96" stroke="#E0E4E6" stroke-width=".8"/><rect x="24" y="102" width="34" height="3" fill="#E5E8EA"/><rect x="24" y="109" width="24" height="3" fill="#E5E8EA"/><rect x="66" y="116" width="46" height="26" fill="none" stroke="#D3D8DB"/><path d="M66 125 L112 125 M89 116 L89 142" stroke="#E0E4E6"/></svg><p class="cap">図面.dxf</p></div>
+          <div class="thumb"><svg class="im" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="0" y="0" width="120" height="150" fill="#EEF0F1"/><rect x="0" y="104" width="120" height="46" fill="#E3E6E8"/><path d="M32 104 L32 62 Q32 54 40 54 L80 54 Q88 54 88 62 L88 104 Z" fill="#C6CCD1"/><rect x="44" y="38" width="32" height="18" rx="3" fill="#B4BBC1"/><circle cx="60" cy="80" r="11" fill="#EEF0F1"/><circle cx="60" cy="80" r="5" fill="#C6CCD1"/><rect x="36" y="92" width="10" height="4" rx="2" fill="#AEB5BB"/><rect x="74" y="92" width="10" height="4" rx="2" fill="#AEB5BB"/><path d="M0 104 L120 104" stroke="#D3D8DB"/></svg><p class="cap">現行品.jpg</p></div>
+          <div class="thumb"><svg class="im" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="0" y="0" width="120" height="150" fill="#FAFBFB"/><rect x="14" y="12" width="92" height="14" fill="#E9ECEE"/><rect x="14" y="32" width="52" height="4" fill="#D8DDE0"/><rect x="14" y="40" width="66" height="4" fill="#E5E8EA"/><rect x="14" y="54" width="92" height="1" fill="#D3D8DB"/><rect x="14" y="62" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="73" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="84" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="95" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="106" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="117" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="128" width="92" height="1" fill="#E5E8EA"/><rect x="44" y="54" width="1" height="78" fill="#D3D8DB"/><rect x="76" y="54" width="1" height="78" fill="#D3D8DB"/><rect x="14" y="132" width="92" height="1" fill="#D3D8DB"/><rect x="14" y="139" width="34" height="4" fill="#E5E8EA"/></svg><p class="cap">要求仕様.pdf</p></div>
+        </div>
+        <p class="hint">画面内ビューアで表示します。ダウンロードを含む閲覧操作はログに記録します。</p>
+      </div>
+    </div>
+    <div>
+      <div class="sect">
+        <h3>見積書等データ　社内作成</h3>
+        <div class="thumbs">
+          <div class="thumb"><svg class="im" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="0" y="0" width="120" height="150" fill="#FAFBFB"/><rect x="14" y="12" width="92" height="14" fill="#E9ECEE"/><rect x="14" y="32" width="52" height="4" fill="#D8DDE0"/><rect x="14" y="40" width="66" height="4" fill="#E5E8EA"/><rect x="14" y="54" width="92" height="1" fill="#D3D8DB"/><rect x="14" y="62" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="73" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="84" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="95" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="106" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="117" width="92" height="1" fill="#E5E8EA"/><rect x="14" y="128" width="92" height="1" fill="#E5E8EA"/><rect x="44" y="54" width="1" height="78" fill="#D3D8DB"/><rect x="76" y="54" width="1" height="78" fill="#D3D8DB"/><rect x="14" y="132" width="92" height="1" fill="#D3D8DB"/><rect x="14" y="139" width="34" height="4" fill="#E5E8EA"/></svg><p class="cap">部品仕様書.pdf</p></div>
+          <div class="thumb"><svg class="im" viewBox="0 0 120 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="0" y="0" width="120" height="150" fill="#FAFBFB"/><rect x="36" y="12" width="48" height="8" fill="#E9ECEE"/><rect x="14" y="30" width="44" height="4" fill="#D8DDE0"/><rect x="66" y="30" width="40" height="4" fill="#E5E8EA"/><rect x="66" y="38" width="40" height="4" fill="#E5E8EA"/><rect x="14" y="52" width="92" height="10" fill="#EDF0F2"/><g><rect x="18" y="69" width="30" height="3.5" fill="#E5E8EA"/><rect x="86" y="69" width="16" height="3.5" fill="#D8DDE0"/></g><g><rect x="18" y="81" width="30" height="3.5" fill="#E5E8EA"/><rect x="86" y="81" width="16" height="3.5" fill="#D8DDE0"/></g><g><rect x="18" y="93" width="30" height="3.5" fill="#E5E8EA"/><rect x="86" y="93" width="16" height="3.5" fill="#D8DDE0"/></g><g><rect x="18" y="105" width="30" height="3.5" fill="#E5E8EA"/><rect x="86" y="105" width="16" height="3.5" fill="#D8DDE0"/></g><g><rect x="18" y="117" width="30" height="3.5" fill="#E5E8EA"/><rect x="86" y="117" width="16" height="3.5" fill="#D8DDE0"/></g><rect x="14" y="128" width="92" height="1" fill="#D3D8DB"/><rect x="60" y="134" width="46" height="7" fill="#E9ECEE"/></svg><p class="cap">見積書.xlsx</p></div>
+          <div class="thumb add">＋</div>
+        </div>
+        <p class="hint">社外提出物はこちらに格納します。区分の定義は未決です。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="sect" style="border-top:1px solid var(--line)">
+    <h3>工程ステータス</h3>
+    <div class="tl">
+      <div class="tlnodes"><div class="tlnode done"><span class="dotn"></span></div><div class="tlnode done"><span class="dotn"></span></div><div class="tlnode now"><span class="dotn"></span></div><div class="tlnode "><span class="dotn"></span></div><div class="tlnode "><span class="dotn"></span></div><div class="tlnode "><span class="dotn"></span></div><div class="tlnode "><span class="dotn"></span></div><div class="tlnode "><span class="dotn"></span></div></div>
+      <div class="tlcards"><div class="tlcard "><p class="n">受付</p><p class="dt">完了 11/28</p><p class="dp">営業事務</p><span class="stb fin">完了</span></div><div class="tlcard "><p class="n">設計確認</p><p class="dt">完了 12/01</p><p class="dp">設計部</p><span class="stb fin">完了</span></div><div class="tlcard now"><p class="n">見積作成</p><p class="dt">対応中 12/12</p><p class="dp">営業事務</p><span class="stb doing">対応中</span></div><div class="tlcard "><p class="n">外注依頼</p><p class="dt">予定 01/05</p><p class="dp">営業事務</p><span class="stb no">未対応</span></div><div class="tlcard "><p class="n">製造</p><p class="dt">予定 01/08</p><p class="dp">製造部</p><span class="stb no">未対応</span></div><div class="tlcard "><p class="n">検査</p><p class="dt">予定 01/24</p><p class="dp">品質保証</p><span class="stb no">未対応</span></div><div class="tlcard "><p class="n">出荷</p><p class="dt">予定 01/31</p><p class="dp">製造部</p><span class="stb no">未対応</span></div><div class="tlcard "><p class="n">完了</p><p class="dt">—</p><p class="dp">営業部</p><span class="stb fin">—</span></div></div>
+    </div>
+  </div>
+
+  <div class="split" style="border-top:1px solid var(--line)">
+    <div>
+      <div class="sect" style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px">
+        <div>
+          <h3>外注ステータス</h3>
+          <div class="out"><span class="c">A社</span><span class="v">見積回答済　¥128,000　12/3納期</span></div>
+          <div class="out"><span class="c">B社</span><span class="v">回答待ち　期限 12/2</span></div>
+        </div>
+        <div>
+          <h3>製造タスク</h3>
+          <div class="task"><span class="box"></span>材料手配</div>
+          <div class="task"><span class="box"></span>図面の最終承認</div>
+          <div class="task"><span class="box"></span>製造指示書の作成</div>
+          <div class="task"><span class="box"></span>検査依頼の登録</div>
+        </div>
+      </div>
+      <div class="sect">
+        <h3>見積　部署別入力</h3>
+        <div style="max-width:340px">
+          <div class="kv"><span>製造部</span><span class="n">¥182,000</span></div>
+          <div class="kv"><span>外注A社</span><span class="n">¥128,000</span></div>
+          <div class="kv"><span>外注B社</span><span class="faint">回答待ち</span></div>
+          <div class="kv total"><span>合計</span><span class="n">¥310,000</span></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="sect" style="padding-bottom:0;border-bottom:0"><h3>メッセージ</h3></div>
+      <div class="msg" style="border-top:1px solid var(--line)"><span class="av">製</span><div class="b"><p class="mh">製造部　12/01 12:34</p><p class="mt"><span class="at">@営業事務</span>　見積を外注へ確認するようにしてください</p></div></div>
+      <div class="msg"><span class="av">事</span><div class="b"><p class="mh">営業事務　12/01 15:02</p><p class="mt">A社へ見積を依頼しました。回答は12/3の予定です</p></div></div>
+      <div class="msg"><span class="av">品</span><div class="b"><p class="mh">品質保証部　12/02 09:15</p><p class="mt">検査成績書の様式を確認します</p></div></div>
+      <div class="sect">
+        <div class="field" style="height:72px;margin-bottom:10px"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="hint" style="margin:0">通知先　全部署</span>
+          <button class="btn sm">送信</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="note"><b>レビュー注記</b><ul>
+  <li><span class="d">D-01</span>　工程の段数（8段階で仮置き）　<span class="d">D-10</span>　予定日を手入力とするか希望納期からの自動逆算とするか</li>
+  <li><span class="d">D-11</span>　外注管理の範囲。外注への依頼をシステム内で行うか、結果のみ記録するか</li>
+  <li><span class="d">D-12</span>　製造タスクをテンプレート固定とするか案件ごとに編集可とするか</li>
+  <li><span class="d">D-13</span>　部署別の見積入力と自動合算を実装するか（仮案ではファイル添付のみ）</li>
+  <li><span class="d">D-14</span>　顧客からの添付と社内作成の見積書等をどう区分するか</li>
+  <li>サムネイルはダミーです。図面はDXFのレンダリング、写真は原寸画像の縮小表示になります</li>
+</ul></div>
+</section>
+
+<!-- ===== SC-09 ===== -->
+<section class="screen" id="s09">
+<div class="shead"><h2>ユーザー管理</h2><span class="sc">SC-09</span><p>アカウントと権限、通知先の設定です。</p></div>
+<div class="frame">
+  <div class="fhead"><span class="t">ユーザー管理</span><span class="r">管理者のみ</span></div>
+  <table>
+    <colgroup><col style="width:150px"><col style="width:118px"><col style="width:92px"><col><col style="width:76px"></colgroup>
+    <thead><tr><th>氏名</th><th>部署</th><th>権限</th><th>通知先</th><th>状態</th></tr></thead>
+    <tbody>
+      <tr class="row"><td class="strong"><span class="av" style="width:22px;height:22px;vertical-align:-6px;margin-right:8px">山</span>山田 太郎</td><td>営業部</td><td>管理者</td><td>Chatwork・メール</td><td style="color:var(--ok)">有効</td></tr>
+      <tr class="row"><td class="strong"><span class="av" style="width:22px;height:22px;vertical-align:-6px;margin-right:8px">◯</span>◯◯ ◯◯</td><td>営業事務</td><td>一般</td><td>Chatwork</td><td style="color:var(--ok)">有効</td></tr>
+      <tr class="row"><td class="strong"><span class="av" style="width:22px;height:22px;vertical-align:-6px;margin-right:8px">◯</span>◯◯ ◯◯</td><td>製造部</td><td>一般</td><td>Chatwork</td><td style="color:var(--ok)">有効</td></tr>
+      <tr class="row"><td class="strong"><span class="av" style="width:22px;height:22px;vertical-align:-6px;margin-right:8px">◯</span>◯◯ ◯◯</td><td>品質保証部</td><td>一般</td><td>メール</td><td style="color:var(--ok)">有効</td></tr>
+      <tr class="row"><td class="strong"><span class="av" style="width:22px;height:22px;vertical-align:-6px;margin-right:8px">◯</span>◯◯ ◯◯</td><td>営業部</td><td>部長</td><td>Chatwork・SMS</td><td style="color:var(--ok)">有効</td></tr>
+      <tr class="row"><td class="faint"><span class="av" style="width:22px;height:22px;vertical-align:-6px;margin-right:8px">◯</span>◯◯ ◯◯</td><td class="faint">設計部</td><td class="faint">一般</td><td class="faint">—</td><td class="faint">無効</td></tr>
+    </tbody>
+  </table>
+  <div class="foot"><span>6件</span><a href="#">ユーザーを追加</a></div>
+</div>
+<div class="note"><b>レビュー注記</b><ul>
+  <li><span class="d">D-05</span>　部署の粒度（6区分か4区分か）と、大連工場ユーザーを利用対象に含めるか</li>
+  <li><span class="d">D-21</span>　ユーザー数の確定。ライセンス体系にも関わります</li>
+  <li><span class="d">D-04</span>　通知チャネル。Chatwork単独かメール併用か、部長へのSMSを実装するか</li>
+</ul></div>
+</section>
+
+<!-- ===== SC-10 ===== -->
+<section class="screen" id="s10">
+<div class="shead"><h2>スコア・通知設定</h2><span class="sc">SC-10</span>
+<p>運用開始3ヶ月後の再調整を前提とするため、配点としきい値を画面から変更できる構成です。</p></div>
+<div class="frame">
+  <div class="fhead"><span class="t">スコア・通知設定</span><span class="r">管理者のみ</span></div>
+  <div class="sect">
+    <h3>配点　合計100点</h3>
+    <div class="mrow"><span class="nm">図面・3Dデータの添付</span><span class="meter"><i style="width:35%"></i></span><span class="vl">35点</span></div>
+    <div class="mrow"><span class="nm">相談フェーズ</span><span class="meter"><i style="width:25%"></i></span><span class="vl">25点</span></div>
+    <div class="mrow"><span class="nm">現行の困りごと</span><span class="meter"><i style="width:20%"></i></span><span class="vl">20点</span></div>
+    <div class="mrow"><span class="nm">役職・数量・納期</span><span class="meter"><i style="width:20%"></i></span><span class="vl">20点</span></div>
+  </div>
+  <div class="sect">
+    <h3>判定しきい値</h3>
+    <div class="grid3">
+      <div class="stat hot"><p class="k">最優先</p><p class="v">85<span style="font-size:14px">点以上</span></p></div>
+      <div class="stat"><p class="k">要フォロー</p><p class="v">55<span style="font-size:14px">点以上</span></p></div>
+      <div class="stat"><p class="k">通常</p><p class="v">54<span style="font-size:14px">点以下</span></p></div>
+    </div>
+    <p class="hint">しきい値を変更した場合、過去案件のスコアを再計算するかを選択できます。</p>
+  </div>
+  <div class="sect">
+    <h3>通知ルール</h3>
+    <table>
+      <colgroup><col style="width:104px"><col><col><col><col><col><col style="width:124px"></colgroup>
+      <thead><tr><th>判定</th><th style="text-align:center">営業</th><th style="text-align:center">製造</th><th style="text-align:center">品証</th><th style="text-align:center">技術</th><th style="text-align:center">部長</th><th>タイミング</th></tr></thead>
+      <tbody>
+        <tr><td class="strong">最優先</td><td style="text-align:center"><span class="dot red"></span></td><td style="text-align:center"><span class="dot red"></span></td><td style="text-align:center"><span class="dot red"></span></td><td style="text-align:center"><span class="dot gray"></span></td><td style="text-align:center;font-size:11px">SMS</td><td>即時</td></tr>
+        <tr><td class="strong">要フォロー</td><td style="text-align:center"><span class="dot red"></span></td><td style="text-align:center"><span class="dot red"></span></td><td style="text-align:center"><span class="dot gray"></span></td><td style="text-align:center"><span class="dot gray"></span></td><td style="text-align:center" class="faint">—</td><td>1営業日以内</td></tr>
+        <tr><td class="strong">通常</td><td style="text-align:center"><span class="dot red"></span></td><td style="text-align:center" class="faint">—</td><td style="text-align:center" class="faint">—</td><td style="text-align:center" class="faint">—</td><td style="text-align:center" class="faint">—</td><td>日次 翌朝9時</td></tr>
+      </tbody>
+    </table>
+    <p class="hint"><span class="dot red"></span>必須通知　<span class="dot gray"></span>条件付き通知</p>
+  </div>
+  <div class="sect">
+    <h3>条件付き通知　スコア帯によらず発動</h3>
+    <table>
+      <colgroup><col><col style="width:160px"><col style="width:250px"></colgroup>
+      <thead><tr><th>条件</th><th>追加通知先</th><th>理由</th></tr></thead>
+      <tbody>
+        <tr><td class="strong">材質が耐熱鋼・特殊合金</td><td>技術部</td><td class="faint">鋳造解析・材料検討が必要</td></tr>
+        <tr><td class="strong">「工場監査」「検査成績書」を選択</td><td>品質保証部</td><td class="faint">初回取引の体制確認が前提</td></tr>
+        <tr><td class="strong">数量が1,000個/年以上</td><td>品証部・部長</td><td class="faint">量産キャパの事前調整</td></tr>
+        <tr><td class="strong">「サプライヤー廃業」を選択</td><td>営業部長（即時）</td><td class="faint">低スコアでも機会損失が大きい</td></tr>
+        <tr><td class="strong">回答希望が「至急」</td><td>製造部</td><td class="faint">1週間以内の回答は前倒しが必須</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="note"><b>レビュー注記</b><ul>
+  <li><span class="d">D-02</span>　しきい値85点の妥当性。月2〜3件が最優先となる想定が運用可能な水準か</li>
+  <li><span class="d">D-03</span>　製造部が月2〜3件の即時通知を受け入れられるか</li>
+  <li><span class="d">D-24</span>　運用3ヶ月後の再調整を誰がどのデータで判断するかの運用ルール</li>
+</ul></div>
+</section>
+
+</div></main>
+</div>
+
+<script>
+(function(){
+  var nav=document.getElementById('nav');
+  function go(id){
+    nav.querySelectorAll('.navitem').forEach(function(n){n.classList.toggle('active',n.dataset.t===id)});
+    document.querySelectorAll('.screen').forEach(function(s){s.classList.toggle('active',s.id===id)});
+    window.scrollTo(0,0);
+  }
+  nav.addEventListener('click',function(e){var it=e.target.closest('.navitem');if(it)go(it.dataset.t)});
+  document.querySelectorAll('[data-jump]').forEach(function(a){
+    a.addEventListener('click',function(e){e.preventDefault();go(a.dataset.jump)});
+  });
+
+  var tg=document.getElementById('notetoggle');
+  function flip(){tg.classList.toggle('on');var on=tg.classList.contains('on');
+    tg.setAttribute('aria-pressed',String(on));document.body.classList.toggle('hide-notes',!on);}
+  tg.addEventListener('click',flip);
+  tg.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});
+
+  var role='design';
+  document.getElementById('roleopts').addEventListener('click',function(e){
+    var o=e.target.closest('.opt');if(!o)return;
+    this.querySelectorAll('.opt').forEach(function(x){x.classList.remove('sel')});
+    o.classList.add('sel');role=o.dataset.role;
+  });
+  document.querySelectorAll('[data-chipgroup]').forEach(function(g){
+    var multi=g.dataset.chipgroup.indexOf('trouble')===0||g.dataset.chipgroup==='qa';
+    g.addEventListener('click',function(e){
+      var c=e.target.closest('.chip');if(!c)return;
+      if(multi){c.classList.toggle('sel');}
+      else{g.querySelectorAll('.chip').forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');}
+    });
+  });
+
+  var labels={design:'設計・開発の分岐',proc:'資材・調達の分岐',both:'兼務の分岐',other:'その他の分岐'};
+  function showStep(n){
+    for(var i=1;i<=4;i++){
+      document.getElementById('fstep'+i).style.display=(i===n?'block':'none');
+      var s=document.getElementById('st'+i);
+      s.classList.toggle('now',i===n); s.classList.toggle('done',i<n);
+    }
+    var d=(role==='design'||role==='both'),p=(role==='proc'||role==='both'||role==='other');
+    document.getElementById('designQ').style.display=d?'block':'none';
+    document.getElementById('procQ').style.display=p?'block':'none';
+    document.getElementById('qtyLabel').textContent=(role==='proc')?'年間の想定数量':'想定数量';
+    document.getElementById('branchlabel').textContent=(n===1)?'旭電気製鋼株式会社':labels[role];
+    window.scrollTo(0,0);
+  }
+  document.querySelectorAll('#s01 [data-go]').forEach(function(b){
+    b.addEventListener('click',function(){showStep(parseInt(b.dataset.go,10));});
+  });
+  document.getElementById('submitBtn').addEventListener('click',function(){
+    go('s02');showStep(1);role='design';
+    document.querySelectorAll('#roleopts .opt').forEach(function(x,i){x.classList.toggle('sel',i===0)});
+  });
+
+  var leadRows=[
+    ['92','最優先','株式会社◯◯精機','設計','他社に断られた','あり','営 製 品',2],
+    ['88','最優先','△△工業株式会社','設計','一体化を検討','あり','営 製 技',2],
+    ['72','要フォロー','◇◇電機株式会社','設計','加工可否が不明','あり','営 製',1],
+    ['64','要フォロー','株式会社▽▽テック','調達','供給停止','—','営 製',1],
+    ['58','要フォロー','□□製作所','調達','品質不良が続く','—','営 製',1],
+    ['41','通常','××商事株式会社','調達','情報収集','—','営',0],
+    ['28','通常','個人','その他','—','—','営',0]
+  ];
+  var progRows=[
+    ['#A-0123','見積','株式会社◯◯精機','見積作成','営業事務','12/12','未対応'],
+    ['#A-0122','その他','ABC工業','設計確認','設計','12/08','未対応'],
+    ['#A-0121','製作','自動車設備メーカー','製造','製造','12/30','対応中'],
+    ['#A-0120','変更','産業機械メーカー','外注依頼','営業事務','12/15','対応中'],
+    ['#A-0119','見積','◇◇電機株式会社','検査','品質保証','1/24','対応中']
+  ];
+  function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+  function deps(str){
+    var all=['営','製','品','技'],on=str.split(' ');
+    return all.map(function(d){return '<span class="dep'+(on.indexOf(d)>=0?' on':'')+'">'+d+'</span>'}).join('');
+  }
+  function render(view){
+    var f=document.getElementById('filterrow'),w=document.getElementById('tablewrap'),
+        lg=document.getElementById('legend'),so=document.getElementById('sortlabel'),h='';
+    if(view==='lead'){
+      f.innerHTML=['期間','判定','立場','図面の有無'].map(function(x){return '<span class="filter">'+x+' ▾</span>'}).join('')+'<span class="search">案件を検索</span>';
+      so.textContent='並び順　スコア降順';
+      lg.innerHTML='左の赤線＝最優先　通知欄　営 営業／製 製造／品 品証／技 技術';
+      h='<table><colgroup><col style="width:64px"><col style="width:98px"><col style="width:172px"><col style="width:78px"><col><col style="width:54px"><col style="width:134px"></colgroup>'+
+        '<thead><tr><th>スコア</th><th>判定</th><th>会社名</th><th>立場</th><th>困りごと</th><th>図面</th><th>通知</th></tr></thead><tbody>';
+      leadRows.forEach(function(r){
+        var cls=r[7]===2?'score hot num':(r[7]===1?'score mid num':'score num');
+        h+='<tr class="row'+(r[7]===2?' hot':'')+'"><td><span class="'+cls+'">'+esc(r[0])+'</span></td>'+
+           '<td>'+esc(r[1])+'</td><td class="strong">'+esc(r[2])+'</td><td>'+esc(r[3])+'</td>'+
+           '<td>'+esc(r[4])+'</td><td>'+esc(r[5])+'</td><td>'+deps(r[6])+'</td></tr>';
+      });
+      h+='</tbody></table>';
+    }else{
+      f.innerHTML=['受付','設計確認','見積作成','外注依頼','製造','検査','出荷','完了'].map(function(x,i){return '<span class="filter'+(i===0?' on':'')+'">'+x+'</span>'}).join('')+'<span class="search">案件を検索</span>';
+      so.textContent='並び順　受付日の新しい順';
+      lg.innerHTML='<span class="dot red"></span>未対応　<span class="dot blue"></span>対応中';
+      h='<table><colgroup><col style="width:88px"><col style="width:64px"><col style="width:196px"><col style="width:96px"><col style="width:96px"><col style="width:76px"><col style="width:88px"></colgroup>'+
+        '<thead><tr><th>案件ID</th><th>種別</th><th>会社名</th><th>現在工程</th><th>担当部署</th><th>予定日</th><th>状況</th></tr></thead><tbody>';
+      progRows.forEach(function(r){
+        var st=r[6]==='未対応'?'<span class="dot red"></span>未対応':'<span class="dot blue"></span>対応中';
+        h+='<tr class="row"><td class="num">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td><td class="strong">'+esc(r[2])+'</td>'+
+           '<td>'+esc(r[3])+'</td><td>'+esc(r[4])+'</td><td class="num">'+esc(r[5])+'</td><td>'+st+'</td></tr>';
+      });
+      h+='</tbody></table>';
+    }
+    w.innerHTML=h;
+    w.querySelectorAll('tr.row').forEach(function(tr){tr.addEventListener('click',function(){go('s06')})});
+  }
+  document.querySelectorAll('#s05 .tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('#s05 .tab').forEach(function(x){x.classList.remove('sel')});
+      t.classList.add('sel');render(t.dataset.view);
+    });
+  });
+  render('lead');
+})();
+</script>
+</body>
+</html>

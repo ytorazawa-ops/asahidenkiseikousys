@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#fff}
+body{font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN","Yu Gothic Medium",Meiryo,sans-serif;-webkit-font-smoothing:antialiased;font-feature-settings:"palt" 1;color:#1A1A1A}
+a{color:#1B6FD0;text-decoration:none}
+a:hover{color:#E60012}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#fff;min-width:1280px">
+  <div style="position:relative;height:78px;background:#F4F4F4;border-bottom:1px solid #E8E8E8;display:flex;align-items:center;padding:0 300px 0 34px">
+    <div style="display:flex;align-items:center;gap:14px">
+      <span style="width:22px;height:22px;background:#E60012;border-radius:3px;display:block;flex:none"></span>
+      <span style="font-size:20px;font-weight:700;letter-spacing:.02em;flex:none;white-space:nowrap">旭電気製鋼株式会社</span>
+      <span style="font-size:18px;font-weight:500;color:#3A3A3A;margin-left:12px;flex:none;white-space:nowrap">案件一覧</span>
+    </div>
+    <div style="position:absolute;top:0;right:0;height:64px;background:#111;color:#fff;border-radius:0 0 16px 16px;display:flex;align-items:center;gap:11px;padding:0 30px">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="flex:none"><circle cx="11" cy="11" r="9.4" stroke="#fff" stroke-width="1.4"/><circle cx="11" cy="8.6" r="2.6" fill="#fff"/><path d="M5.8 17.4c.7-2.8 2.7-4.2 5.2-4.2s4.5 1.4 5.2 4.2" fill="#fff"/></svg>
+      <span style="font-size:15px;font-weight:500;letter-spacing:.04em;flex:none;white-space:nowrap">山田 太郎</span>
+      <span style="font-size:11.5px;color:#9BA1A6;flex:none">営業部</span>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:26px;padding:0 34px;background:#fff;border-bottom:1px solid #E8E8E8">
+    <a href="sc04-dashboard.dc.html" style="font-size:13.5px;color:#6B6B6B;padding:13px 0 11px;flex:none" style-hover="color:#111">ダッシュボード</a>
+    <span style="font-size:13.5px;font-weight:700;padding:13px 0 11px;border-bottom:2px solid #E60012;flex:none">案件一覧</span>
+    <a href="sc09-users.dc.html" style="font-size:13.5px;color:#6B6B6B;padding:13px 0 11px;flex:none" style-hover="color:#111">ユーザー管理</a>
+    <a href="sc10-settings.dc.html" style="font-size:13.5px;color:#6B6B6B;padding:13px 0 11px;flex:none" style-hover="color:#111">スコア・通知設定</a>
+    <a href="sc03-login.dc.html" style="margin-left:auto;font-size:12px;color:#9A9A9A;flex:none" style-hover="color:#E60012">ログアウト</a>
+  </div>
+
+  <div style="display:flex;align-items:center;gap:28px;padding:0 34px;border-bottom:1px solid #E8E8E8;background:#fff">
+    <span onClick="{{ toLead }}" style="{{ tabLeadStyle }}">新規リード</span>
+    <span onClick="{{ toProg }}" style="{{ tabProgStyle }}">進行案件</span>
+    <span style="margin-left:auto;font-size:11.5px;color:#9A9A9A;flex:none">{{ sortLabel }}</span>
+  </div>
+
+  <sc-if value="{{ isLead }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;padding:14px 34px;background:#FAFAFA;border-bottom:1px solid #EDEDED;flex-wrap:wrap">
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">期間 ▾</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">判定 ▾</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">対応状況 ▾</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">図面の有無 ▾</span>
+      <span style="margin-left:auto;display:flex;align-items:center;gap:8px;border:1px solid #DCDCDC;border-radius:20px;padding:6px 16px;background:#fff;min-width:250px">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="flex:none"><circle cx="6.2" cy="6.2" r="4.6" stroke="#A5A5A5"/><path d="M9.6 9.6l3 3" stroke="#A5A5A5"/></svg>
+        <input type="text" placeholder="案件を検索" style="border:0;outline:none;font-family:inherit;font-size:12.5px;flex:1;min-width:0;background:transparent">
+      </span>
+    </div>
+    <div style="padding:0 34px 34px">
+      <div style="display:grid;grid-template-columns:64px 92px minmax(0,1.4fr) 70px minmax(0,1.2fr) 54px 96px 130px;align-items:center;gap:12px;padding:12px;background:#F4F4F4;border-bottom:1px solid #E7E7E7;font-size:11.5px;color:#6B6B6B;letter-spacing:.04em">
+        <span>スコア</span><span>判定</span><span>会社名</span><span>立場</span><span>困りごと</span><span>図面</span><span>対応状況</span><span>通知</span>
+      </div>
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:64px 92px minmax(0,1.4fr) 70px minmax(0,1.2fr) 54px 96px 130px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;box-shadow:inset 3px 0 0 #E60012;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="background:#E60012;color:#fff;border-radius:4px;font-size:12.5px;font-weight:700;text-align:center;padding:3px 0;font-variant-numeric:tabular-nums">92</span>
+        <span style="color:#B3121A;font-weight:500">最優先</span>
+        <span style="font-weight:700;font-size:13.5px">株式会社◯◯精機</span><span style="color:#5C5C5C">設計</span>
+        <span style="color:#5C5C5C">他社に断られた</span><span style="color:#5C5C5C">あり</span>
+        <span style="border:1px solid #E60012;color:#E60012;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">未対応</span>
+        <span style="display:flex;gap:4px">
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">営</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">製</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">品</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">技</span>
+        </span>
+      </a>
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:64px 92px minmax(0,1.4fr) 70px minmax(0,1.2fr) 54px 96px 130px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;box-shadow:inset 3px 0 0 #E60012;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="background:#E60012;color:#fff;border-radius:4px;font-size:12.5px;font-weight:700;text-align:center;padding:3px 0;font-variant-numeric:tabular-nums">88</span>
+        <span style="color:#B3121A;font-weight:500">最優先</span>
+        <span style="font-weight:700;font-size:13.5px">△△工業株式会社</span><span style="color:#5C5C5C">設計</span>
+        <span style="color:#5C5C5C">一体化を検討</span><span style="color:#5C5C5C">あり</span>
+        <span style="border:1px solid #1B6FD0;color:#1B6FD0;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">対応中</span>
+        <span style="display:flex;gap:4px">
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">営</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">製</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">品</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">技</span>
+        </span>
+      </a>
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:64px 92px minmax(0,1.4fr) 70px minmax(0,1.2fr) 54px 96px 130px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="border:1px solid #E3D0AE;background:#FCF5E9;color:#96540E;border-radius:4px;font-size:12.5px;font-weight:700;text-align:center;padding:2px 0;font-variant-numeric:tabular-nums">72</span>
+        <span style="color:#96540E">要フォロー</span>
+        <span style="font-weight:700;font-size:13.5px">◇◇電機株式会社</span><span style="color:#5C5C5C">設計</span>
+        <span style="color:#5C5C5C">加工可否が不明</span><span style="color:#5C5C5C">あり</span>
+        <span style="border:1px solid #1B6FD0;color:#1B6FD0;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">対応中</span>
+        <span style="display:flex;gap:4px">
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">営</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">製</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">品</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">技</span>
+        </span>
+      </a>
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:64px 92px minmax(0,1.4fr) 70px minmax(0,1.2fr) 54px 96px 130px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="border:1px solid #E3D0AE;background:#FCF5E9;color:#96540E;border-radius:4px;font-size:12.5px;font-weight:700;text-align:center;padding:2px 0;font-variant-numeric:tabular-nums">64</span>
+        <span style="color:#96540E">要フォロー</span>
+        <span style="font-weight:700;font-size:13.5px">株式会社▽▽テック</span><span style="color:#5C5C5C">調達</span>
+        <span style="color:#5C5C5C">供給停止</span><span style="color:#AEAEAE">—</span>
+        <span style="border:1px solid #E60012;color:#E60012;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">未対応</span>
+        <span style="display:flex;gap:4px">
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">営</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">製</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">品</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">技</span>
+        </span>
+      </a>
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:64px 92px minmax(0,1.4fr) 70px minmax(0,1.2fr) 54px 96px 130px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="border:1px solid #E3D0AE;background:#FCF5E9;color:#96540E;border-radius:4px;font-size:12.5px;font-weight:700;text-align:center;padding:2px 0;font-variant-numeric:tabular-nums">58</span>
+        <span style="color:#96540E">要フォロー</span>
+        <span style="font-weight:700;font-size:13.5px">□□製作所</span><span style="color:#5C5C5C">調達</span>
+        <span style="color:#5C5C5C">品質不良が続く</span><span style="color:#AEAEAE">—</span>
+        <span style="border:1px solid #DCDCDC;background:#FAFAFA;color:#6B6B6B;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">回答済</span>
+        <span style="display:flex;gap:4px">
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">営</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">製</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">品</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">技</span>
+        </span>
+      </a>
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:64px 92px minmax(0,1.4fr) 70px minmax(0,1.2fr) 54px 96px 130px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="border:1px solid #DCDCDC;color:#5C5C5C;border-radius:4px;font-size:12.5px;font-weight:700;text-align:center;padding:2px 0;font-variant-numeric:tabular-nums">41</span>
+        <span style="color:#8A8A8A">通常</span>
+        <span style="font-weight:700;font-size:13.5px">××商事株式会社</span><span style="color:#5C5C5C">調達</span>
+        <span style="color:#5C5C5C">情報収集</span><span style="color:#AEAEAE">—</span>
+        <span style="border:1px solid #DCDCDC;background:#FAFAFA;color:#6B6B6B;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">回答済</span>
+        <span style="display:flex;gap:4px">
+          <span style="width:22px;height:22px;border-radius:4px;background:#FCF1F1;border:1px solid #EBCBCD;color:#B3121A;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">営</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">製</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">品</span>
+          <span style="width:22px;height:22px;border-radius:4px;background:#FAFAFA;border:1px solid #E7E7E7;color:#AEAEAE;font-size:10.5px;display:flex;align-items:center;justify-content:center;flex:none">技</span>
+        </span>
+      </a>
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:#FAFAFA;border-top:1px solid #EDEDED;font-size:11.5px;color:#8A8A8A">
+        <span>左の赤線＝最優先　通知欄　営 営業／製 製造／品 品証／技 技術</span><a href="sc05-list.dc.html">CSV出力</a>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isProg }}">
+  <div>
+    <div style="display:flex;align-items:center;gap:8px;padding:14px 34px;background:#FAFAFA;border-bottom:1px solid #EDEDED;flex-wrap:wrap">
+      <span style="font-size:11.5px;color:#6B6B6B;margin-right:4px;flex:none">工程で絞り込む</span>
+      <span style="border:1px solid #111;color:#111;border-radius:15px;padding:5px 14px;font-size:11.5px;background:#fff;flex:none">すべて</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">受付</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">設計確認</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">見積作成</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">外注依頼</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">製造</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">検査</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">出荷</span>
+      <span style="border:1px solid #DCDCDC;border-radius:15px;padding:5px 14px;font-size:11.5px;color:#6B6B6B;background:#fff;flex:none">完了</span>
+    </div>
+    <div style="padding:0 34px 34px">
+      <div style="display:grid;grid-template-columns:84px 60px minmax(0,1.2fr) minmax(0,1.5fr) 96px 76px 84px;align-items:center;gap:12px;padding:12px;background:#F4F4F4;border-bottom:1px solid #E7E7E7;font-size:11.5px;color:#6B6B6B;letter-spacing:.04em">
+        <span>案件ID</span><span>種別</span><span>会社名</span><span>工程ステータス</span><span>担当部署</span><span>予定日</span><span>状況</span>
+      </div>
+
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:84px 60px minmax(0,1.2fr) minmax(0,1.5fr) 96px 76px 84px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="color:#6B6B6B;font-variant-numeric:tabular-nums">#A-0123</span>
+        <span style="background:#6E6E6E;color:#fff;font-size:11px;padding:3px 0;border-radius:3px;text-align:center">見積</span>
+        <span style="font-weight:700;font-size:13.5px">株式会社◯◯精機</span>
+        <span>
+          <span style="display:flex;gap:3px;margin-bottom:5px">
+            <span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E60012;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span>
+          </span>
+          <span style="font-size:11.5px;color:#5C5C5C">見積作成　<span style="color:#9A9A9A;font-variant-numeric:tabular-nums">3 / 8</span></span>
+        </span>
+        <span style="color:#5C5C5C">営業事務</span>
+        <span style="color:#5C5C5C;font-variant-numeric:tabular-nums">12/12</span>
+        <span style="border:1px solid #E60012;color:#E60012;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">未対応</span>
+      </a>
+
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:84px 60px minmax(0,1.2fr) minmax(0,1.5fr) 96px 76px 84px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="color:#6B6B6B;font-variant-numeric:tabular-nums">#A-0122</span>
+        <span style="background:#6E6E6E;color:#fff;font-size:11px;padding:3px 0;border-radius:3px;text-align:center">その他</span>
+        <span style="font-weight:700;font-size:13.5px">ABC工業</span>
+        <span>
+          <span style="display:flex;gap:3px;margin-bottom:5px">
+            <span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E60012;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span>
+          </span>
+          <span style="font-size:11.5px;color:#5C5C5C">設計確認　<span style="color:#9A9A9A;font-variant-numeric:tabular-nums">2 / 8</span></span>
+        </span>
+        <span style="color:#5C5C5C">設計部</span>
+        <span style="color:#5C5C5C;font-variant-numeric:tabular-nums">12/08</span>
+        <span style="border:1px solid #E60012;color:#E60012;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">未対応</span>
+      </a>
+
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:84px 60px minmax(0,1.2fr) minmax(0,1.5fr) 96px 76px 84px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="color:#6B6B6B;font-variant-numeric:tabular-nums">#A-0121</span>
+        <span style="background:#6E6E6E;color:#fff;font-size:11px;padding:3px 0;border-radius:3px;text-align:center">製作</span>
+        <span style="font-weight:700;font-size:13.5px">自動車設備メーカー</span>
+        <span>
+          <span style="display:flex;gap:3px;margin-bottom:5px">
+            <span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#1B6FD0;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span>
+          </span>
+          <span style="font-size:11.5px;color:#5C5C5C">製造　<span style="color:#9A9A9A;font-variant-numeric:tabular-nums">5 / 8</span></span>
+        </span>
+        <span style="color:#5C5C5C">製造部</span>
+        <span style="color:#5C5C5C;font-variant-numeric:tabular-nums">12/30</span>
+        <span style="border:1px solid #1B6FD0;color:#1B6FD0;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">対応中</span>
+      </a>
+
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:84px 60px minmax(0,1.2fr) minmax(0,1.5fr) 96px 76px 84px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="color:#6B6B6B;font-variant-numeric:tabular-nums">#A-0120</span>
+        <span style="background:#6E6E6E;color:#fff;font-size:11px;padding:3px 0;border-radius:3px;text-align:center">変更</span>
+        <span style="font-weight:700;font-size:13.5px">産業機械メーカー</span>
+        <span>
+          <span style="display:flex;gap:3px;margin-bottom:5px">
+            <span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#1B6FD0;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span>
+          </span>
+          <span style="font-size:11.5px;color:#5C5C5C">外注依頼　<span style="color:#9A9A9A;font-variant-numeric:tabular-nums">4 / 8</span></span>
+        </span>
+        <span style="color:#5C5C5C">営業事務</span>
+        <span style="color:#5C5C5C;font-variant-numeric:tabular-nums">12/15</span>
+        <span style="border:1px solid #1B6FD0;color:#1B6FD0;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">対応中</span>
+      </a>
+
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:84px 60px minmax(0,1.2fr) minmax(0,1.5fr) 96px 76px 84px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="color:#6B6B6B;font-variant-numeric:tabular-nums">#A-0119</span>
+        <span style="background:#6E6E6E;color:#fff;font-size:11px;padding:3px 0;border-radius:3px;text-align:center">見積</span>
+        <span style="font-weight:700;font-size:13.5px">◇◇電機株式会社</span>
+        <span>
+          <span style="display:flex;gap:3px;margin-bottom:5px">
+            <span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#1B6FD0;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#E8E8E8;display:block"></span>
+          </span>
+          <span style="font-size:11.5px;color:#5C5C5C">検査　<span style="color:#9A9A9A;font-variant-numeric:tabular-nums">6 / 8</span></span>
+        </span>
+        <span style="color:#5C5C5C">品質保証</span>
+        <span style="color:#5C5C5C;font-variant-numeric:tabular-nums">1/24</span>
+        <span style="border:1px solid #1B6FD0;color:#1B6FD0;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">対応中</span>
+      </a>
+
+      <a href="sc06-detail.dc.html" style="display:grid;grid-template-columns:84px 60px minmax(0,1.2fr) minmax(0,1.5fr) 96px 76px 84px;align-items:center;gap:12px;padding:14px 12px;border-bottom:1px solid #EDEDED;font-size:12.5px;color:#1A1A1A" style-hover="background:#FAFAFA;color:#1A1A1A">
+        <span style="color:#6B6B6B;font-variant-numeric:tabular-nums">#A-0118</span>
+        <span style="background:#6E6E6E;color:#fff;font-size:11px;padding:3px 0;border-radius:3px;text-align:center">製作</span>
+        <span style="font-weight:700;font-size:13.5px">□□製作所</span>
+        <span>
+          <span style="display:flex;gap:3px;margin-bottom:5px">
+            <span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#9A9A9A;display:block"></span><span style="flex:1;height:6px;border-radius:3px;background:#2E6B44;display:block"></span>
+          </span>
+          <span style="font-size:11.5px;color:#5C5C5C">完了　<span style="color:#9A9A9A;font-variant-numeric:tabular-nums">8 / 8</span></span>
+        </span>
+        <span style="color:#5C5C5C">営業部</span>
+        <span style="color:#5C5C5C;font-variant-numeric:tabular-nums">11/29</span>
+        <span style="border:1px solid #B6CFBF;background:#F1F7F3;color:#2E6B44;border-radius:3px;font-size:11px;text-align:center;padding:3px 0">完了</span>
+      </a>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:#FAFAFA;border-top:1px solid #EDEDED;font-size:11.5px;color:#8A8A8A">
+        <span>工程ステータス　<span style="display:inline-block;width:14px;height:6px;border-radius:3px;background:#9A9A9A;margin:0 5px"></span>完了<span style="display:inline-block;width:14px;height:6px;border-radius:3px;background:#E60012;margin:0 5px 0 12px"></span>未対応の現工程<span style="display:inline-block;width:14px;height:6px;border-radius:3px;background:#1B6FD0;margin:0 5px 0 12px"></span>対応中</span>
+        <a href="sc05-list.dc.html">CSV出力</a>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { view: 'lead' };
+  renderVals() {
+    const v = this.state.view;
+    const base = 'font-size:14px;cursor:pointer;padding:15px 0 13px;border-bottom:2px solid transparent;color:#6B6B6B;flex:none;white-space:nowrap';
+    const on = 'font-size:14px;cursor:pointer;padding:15px 0 13px;border-bottom:2px solid #E60012;color:#111;font-weight:700;flex:none;white-space:nowrap';
+    return {
+      isLead: v === 'lead',
+      isProg: v === 'prog',
+      tabLeadStyle: v === 'lead' ? on : base,
+      tabProgStyle: v === 'prog' ? on : base,
+      sortLabel: v === 'lead' ? '並び順　スコア降順' : '並び順　受付日の新しい順',
+      toLead: () => this.setState({ view: 'lead' }),
+      toProg: () => this.setState({ view: 'prog' })
+    };
+  }
+}
+</script>
+</body>
+</html>
